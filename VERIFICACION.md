@@ -2,16 +2,17 @@
 
 29 de octubre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
 
-## Cambio de nombre y ubicación
+## Ubicación definitiva en el Escritorio
 
-El proyecto completo se ha trasladado a `C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`, por petición expresa del usuario. Se verificaron las rutas dentro de Bruno y que el destino no existiera antes del traslado. Windows trasladó una parte y bloqueó otra; se completó el movimiento sin sobrescribir archivos. La carpeta antigua se retiró únicamente cuando quedó vacía.
+La única carpeta principal y destino de todo trabajo futuro es `C:\Users\pc\Desktop\Bruno\Casa a Casa`, por petición expresa del usuario. Todas las ubicaciones anteriores en Documentos quedan sustituidas. No se ha tocado el otro proyecto del Bruno del Escritorio.
 
-El repositorio conserva su historial y pasó `git fsck`. Se conservaron las dependencias, recursos, pruebas y archivos. No se modificaron las claves `custodia.calendario.v1` y `custodia.calendario.v2`, el modelo de persistencia ni el origen `http://127.0.0.1:8081`. El slug de Expo y los demás identificadores internos permanecen iguales.
+Se comprobaron las rutas exactas y que el destino no existiera. Se detuvo únicamente el acceso de apertura de Casa a Casa y su servidor identificado. El traslado con PowerShell y rutas literales conservó 22.585 archivos, incluidos los ocultos, el repositorio, dependencias, pruebas, recursos y accesos. Se verificó el mismo recuento antes y después, el mismo último commit, `git fsck` sin errores y ausencia de archivos pendientes antes de actualizar esta ubicación. La carpeta de origen ya no existe: no quedan dos proyectos activos.
 
-Se repitieron TypeScript, las dieciocho pruebas de lógica, las ocho pruebas de navegador y las compilaciones web y de paquetes iOS/Android desde la ruta nueva con espacios. Se probó `ABRIR.cmd` desde esa ruta, iniciado como proceso oculto. El servidor devolvió HTTP 200 y el título HTML «Casa a Casa» en la dirección anterior. La cabecera y el nombre visible de Expo usan el nuevo nombre, sin cambios de diseño.
+No se modificaron las claves `custodia.calendario.v1` y `custodia.calendario.v2`, el código de persistencia ni el origen `http://127.0.0.1:8081`. Los identificadores internos de la aplicación se mantienen.
 
-La propuesta [BASE_DE_DATOS.md](BASE_DE_DATOS.md) es solo documentación. No se ha conectado una base real ni creado servicios remotos.
+Desde el Escritorio se verificaron TypeScript, las dieciocho pruebas de lógica, la compilación web y las ocho pruebas de navegador. Se comprobó el acceso `ABRIR.cmd` con la ruta que contiene espacios, iniciado oculto, y la respuesta HTTP 200 con título «Casa a Casa». Las compilaciones móviles conservadas ya estaban verificadas en la entrega anterior; este traslado no modifica código móvil.
 
+La base de datos no ha avanzado. La propuesta existente se conserva; siguen pendientes los permisos de consulta y edición de los hijos y la vinculación familiar.
 ## Comprobaciones
 
 - Dieciocho pruebas automatizadas de calendario, rutinas y persistencia, ejecutadas con `TZ=Europe/Madrid`. A los casos de la primera versión se añaden: plantilla semanal; fines de semana alternos sin inventar los días desconocidos; fecha de inicio; turno antes y después del viernes de referencia; continuidad entre años y cambio de hora; prioridad de excepciones; diferencia entre excepción vacía y retirada de excepción; cambio de regla; retorno tras una excepción larga; rutina futura; migración v1 y persistencia v2 sin sobrescribir la copia anterior.

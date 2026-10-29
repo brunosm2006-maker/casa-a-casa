@@ -2,7 +2,7 @@
 
 29 de octubre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con la primera versión funcional de la estructura y el calendario. Las funciones de fases posteriores se describen como previstas.
 
-Todos los archivos del proyecto se conservan en `C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`. La nueva carpeta sustituye la ubicación provisional anterior.
+Todos los archivos del proyecto se conservan en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. Esta es la única carpeta principal y destino de todo trabajo futuro; sustituye las ubicaciones anteriores de Documentos.
 
 ## Objetivo
 

@@ -12,9 +12,9 @@ Casa a Casa es el nombre definitivo elegido por el usuario. La aplicación está
 
 Toda la información y todos los archivos futuros de este proyecto deben guardarse dentro de:
 
-`C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`
+`C:\Users\pc\Desktop\Bruno\Casa a Casa`
 
-La carpeta se ha renombrado por petición del usuario, conservando el proyecto y el repositorio. Esta ubicación sustituye la instrucción anterior de usar «Aplicación».
+El proyecto completo se ha trasladado al Bruno del Escritorio por petición expresa del usuario. Esta es la única carpeta principal y el destino de todo trabajo futuro. Sustituye todas las ubicaciones anteriores de Documentos, sin dejar otra copia activa.
 
 ## Índice
 

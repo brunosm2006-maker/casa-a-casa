@@ -1,5 +1,7 @@
 # Casa a Casa · propuesta inicial de datos
 
+Ubicación única del proyecto y de todos sus archivos futuros: `C:\Users\pc\Desktop\Bruno\Casa a Casa`. La propuesta sigue pendiente de revisión; no se ha avanzado en permisos ni conectado una base.
+
 29 de octubre de 2026. Propuesta para revisar. No se ha elegido proveedor, conectado una base de datos, creado servicios remotos ni implementado SQL o un backend.
 
 ## Cuándo hace falta
