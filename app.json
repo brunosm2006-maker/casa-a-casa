@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Calendario familiar",
+    "name": "Casa a Casa",
     "slug": "calendario-familiar-local",
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": { "supportsTablet": true },
-    "web": { "bundler": "metro", "name": "Calendario familiar" }
+    "web": { "bundler": "metro", "name": "Casa a Casa" }
   }
 }

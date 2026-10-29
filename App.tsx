@@ -41,7 +41,7 @@ function CalendarApp() {
     <StatusBar style="dark" />
     <ScrollView ref={scroll} contentContainerStyle={s.content}>
       <View style={s.between}>
-        <Text style={s.eyebrow}>CALENDARIO FAMILIAR</Text>
+        <Text style={s.eyebrow}>CASA A CASA</Text>
         <Text style={s.muted}>{state.profile ? profileLabel[state.profile] : 'Primera versión'}</Text>
       </View>
       {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}

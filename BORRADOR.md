@@ -1,6 +1,8 @@
-# Primer borrador de la aplicación de custodia compartida
+# Casa a Casa · borrador funcional
 
-29 de octubre de 2026. Borrador actualizado con la primera versión funcional de la estructura y el calendario. El producto aún no tiene nombre. Las funciones de fases posteriores se describen como previstas.
+29 de octubre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con la primera versión funcional de la estructura y el calendario. Las funciones de fases posteriores se describen como previstas.
+
+Todos los archivos del proyecto se conservan en `C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`. La nueva carpeta sustituye la ubicación provisional anterior.
 
 ## Objetivo
 
@@ -99,7 +101,6 @@ El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su mad
 - Cómo se vinculan las cuentas familiares.
 - Qué hora se ofrece por defecto para cada aviso.
 - Quién puede ver y modificar las listas personales y cómo se presentan las listas y los avisos en cada perfil.
-- Qué nombre tendrá la aplicación.
 
 ## Ideas para valorar más adelante
 

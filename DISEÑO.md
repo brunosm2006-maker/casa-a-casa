@@ -1,4 +1,6 @@
-# Criterios de esta primera interfaz
+# Casa a Casa · criterios de interfaz
+
+«Casa a Casa» es el nombre definitivo. Se usa en la cabecera y en la configuración visible, conservando el diseño existente. El proyecto completo está en `C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`. El cambio de nombre no modifica las claves de almacenamiento ni el origen `http://127.0.0.1:8081`.
 
 El primer uso sigue el recorrido Perfil → cuestionario → revisión → calendario generado. Las opciones de perfil son Hijo, Hija, Madre y Padre. La pregunta inicial se adapta: «¿Con quién te toca cada día?» para hijos o «¿Cómo se reparte la custodia?» para progenitores. La navegación tiene Calendario, Rutina y Perfil. La rutina automática es el mecanismo principal; los rangos manuales se reservan para cambios puntuales.
 

@@ -1,6 +1,16 @@
-# Verificación de la primera versión
+# Casa a Casa · verificación
 
 29 de octubre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
+
+## Cambio de nombre y ubicación
+
+El proyecto completo se ha trasladado a `C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`, por petición expresa del usuario. Se verificaron las rutas dentro de Bruno y que el destino no existiera antes del traslado. Windows trasladó una parte y bloqueó otra; se completó el movimiento sin sobrescribir archivos. La carpeta antigua se retiró únicamente cuando quedó vacía.
+
+El repositorio conserva su historial y pasó `git fsck`. Se conservaron las dependencias, recursos, pruebas y archivos. No se modificaron las claves `custodia.calendario.v1` y `custodia.calendario.v2`, el modelo de persistencia ni el origen `http://127.0.0.1:8081`. El slug de Expo y los demás identificadores internos permanecen iguales.
+
+Se repitieron TypeScript, las dieciocho pruebas de lógica, las ocho pruebas de navegador y las compilaciones web y de paquetes iOS/Android desde la ruta nueva con espacios. Se probó `ABRIR.cmd` desde esa ruta, iniciado como proceso oculto. El servidor devolvió HTTP 200 y el título HTML «Casa a Casa» en la dirección anterior. La cabecera y el nombre visible de Expo usan el nuevo nombre, sin cambios de diseño.
+
+La propuesta [BASE_DE_DATOS.md](BASE_DE_DATOS.md) es solo documentación. No se ha conectado una base real ni creado servicios remotos.
 
 ## Comprobaciones
 

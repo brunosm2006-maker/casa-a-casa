@@ -1,4 +1,4 @@
-# Proyecto de aplicación de custodia compartida
+# Casa a Casa
 
 Fecha del primer borrador: 29 de octubre de 2026.
 
@@ -6,13 +6,15 @@ Fecha del primer borrador: 29 de octubre de 2026.
 
 El proyecto nace de las dificultades que vivió su creador al adaptarse a la custodia compartida de sus padres. Quiere crear una aplicación pública que ayude a hijos, hijas, madres y padres a organizar las estancias y los cambios de casa.
 
-La aplicación está pensada para iPhone y Android. Todavía no tiene nombre de producto: «Aplicación» es el nombre provisional de esta carpeta.
+Casa a Casa es el nombre definitivo elegido por el usuario. La aplicación está pensada para iPhone y Android.
 
 ## Ubicación de los archivos
 
 Toda la información y todos los archivos futuros de este proyecto deben guardarse dentro de:
 
-`C:\Users\pc\Documents\ChatGPT\Bruno\Aplicación`
+`C:\Users\pc\Documents\ChatGPT\Bruno\Casa a Casa`
+
+La carpeta se ha renombrado por petición del usuario, conservando el proyecto y el repositorio. Esta ubicación sustituye la instrucción anterior de usar «Aplicación».
 
 ## Índice
 
@@ -20,12 +22,13 @@ Toda la información y todos los archivos futuros de este proyecto deben guardar
 - [AGENTS.md](AGENTS.md): instrucción permanente sobre la ubicación de los archivos.
 - [DISEÑO.md](DISEÑO.md): criterios de interfaz y base técnica.
 - [VERIFICACION.md](VERIFICACION.md): comprobaciones y limitaciones.
+- [BASE_DE_DATOS.md](BASE_DE_DATOS.md): propuesta de tablas para compartir los calendarios; pendiente de revisar, sin conexión a una base real.
 - [ABRIR.cmd](ABRIR.cmd): abre el servidor de la versión local ya compilada.
 - Este documento: registro de decisiones, preguntas y propuestas.
 
 ## Estado
 
-El usuario ha autorizado empezar la implementación. Hay una primera versión funcional de la estructura y el calendario, construida con Expo, React Native y TypeScript. Comparte código entre iPhone, Android y la vista web local. «Calendario familiar» es una etiqueta descriptiva de la vista, no el nombre definitivo del producto.
+Hay una primera versión funcional de Casa a Casa, con estructura y calendario, construida con Expo, React Native y TypeScript. Comparte código entre iPhone, Android y la vista web local.
 
 El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y ver el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
 
@@ -94,7 +97,6 @@ El borrador propone un calendario familiar con vistas adaptadas: el hijo o la hi
 - ¿Qué hora se ofrecerá por defecto para cada aviso?
 - ¿Quién podrá ver y modificar cada lista personal de «Mochila»?
 - ¿Cómo se presentarán y gestionarán las listas y los avisos en cada perfil?
-- ¿Qué nombre tendrá el producto?
 
 ## Propuestas comentadas sin confirmar
 
