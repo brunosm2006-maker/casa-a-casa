@@ -27,7 +27,28 @@ Toda la información y todos los archivos futuros de este proyecto deben guardar
 
 El usuario ha autorizado empezar la implementación. Hay una primera versión funcional de la estructura y el calendario, construida con Expo, React Native y TypeScript. Comparte código entre iPhone, Android y la vista web local. «Calendario familiar» es una etiqueta descriptiva de la vista, no el nombre definitivo del producto.
 
-Incluye navegación entre Calendario y Perfil; elección local de hijo/hija, madre o padre; navegación mensual; asignación, modificación y borrado de días o estancias; persistencia local y próximo cambio calculado a partir de dos días consecutivos con distinta casa. Los días sin asignar permanecen sin asignar. No se incluyen fechas de demostración.
+El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y ver el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
+
+Incluye rutina automática semanal y fines de semana alternos, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
+
+## Rutina automática y cambios puntuales
+
+El cuestionario ofrece dos caminos:
+
+- **Reparto semanal**: plantilla editable de lunes y martes con madre, miércoles y jueves con padre y viernes a domingo alternos. Cada día puede ajustarse; también puede dejarse sin asignar.
+- **Fines de semana alternos**: un viernes a domingo cada dos semanas con el progenitor elegido. No requiere editar catorce días. Se pregunta por los días entre semana y los otros fines de semana; por defecto quedan sin asignar si no se definen.
+
+En ambos casos se elige la fecha de inicio. Si hay alternancia, es obligatorio indicar un viernes de referencia y su progenitor. El formulario muestra el fin de semana fechado y permite definir con quién corresponden los otros fines de semana. La alternancia se ancla a esa fecha, continúa entre años y no se reinicia en enero. El calendario se calcula al consultar cada fecha, sin generar solo un año fijo.
+
+Tras revisar las respuestas, «Guardar rutina y ver calendario» aplica la regla. «Ahora no» permite mantener el calendario manual. Se puede volver al cuestionario desde Rutina o desde «Cambiar rutina». Hay una sola regla activa: cambiarla recalcula sus fechas desde el inicio elegido y conserva todos los cambios puntuales.
+
+Para festivos o vacaciones, toca un día o usa «Añadir cambio puntual». El cambio tiene prioridad sobre la rutina y solo afecta al tramo elegido. «Dejar sin asignar» crea una excepción vacía. «Quitar cambio puntual · recuperar rutina» elimina la excepción; si no hay rutina, el día vuelve a quedar vacío. Un asterisco marca los cambios puntuales. El próximo cambio solo aparece si dos días consecutivos tienen casas conocidas y distintas.
+
+## Conservación de los datos anteriores
+
+La versión anterior guardaba perfil y fechas en `custodia.calendario.v1`. La nueva versión lee primero `custodia.calendario.v2`; si no existe, lee y adapta la versión anterior sin modificarla. Todas las fechas anteriores pasan a ser cambios puntuales, con prioridad sobre cualquier rutina nueva. Los guardados nuevos usan la clave v2, con regla y excepciones, incluidas las excepciones vacías.
+
+La clave v1 permanece intacta como copia del estado anterior. Volver al código anterior mostraría ese estado original, sin los cambios nuevos de v2. No se deben alternar versiones antiguas y nuevas para editar el mismo calendario. Los datos dañados muestran un error y no se sustituyen silenciosamente.
 
 La vista del hijo indica con quién está hoy. Las vistas de madre y padre indican si su hijo o hija está con ellos y cuántos días tienen asignados en el mes. Todas permiten editar en este prototipo; esto no establece los permisos familiares definitivos.
 
@@ -41,11 +62,11 @@ Los datos se guardan en el almacenamiento local de la aplicación o del navegado
 
 ## Verificación
 
-- `npm test`: once pruebas de calendario y persistencia, también ejecutadas con la zona Europe/Madrid. Cubren febrero bisiesto, límites de mes y año, cambio de hora, edición, borrado, fechas inválidas, huecos del calendario y fallos de almacenamiento.
+- `npm test`: dieciocho pruebas de calendario, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren ambos patrones, inicio, alternancia entre años, cambio de hora, excepciones, retirada de excepciones, migración de datos y fallos de almacenamiento.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: cuatro pruebas en Edge. Verifican el flujo de selección por teclado, edición y borrado, persistencia al recargar, cambio de perfil, errores de almacenamiento y anchuras de 320, 768 y 1440 píxeles.
+- `npm run test:browser`: ocho pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, ambos patrones, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
@@ -54,6 +75,7 @@ Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualme
 - El orden de trabajo será: primero la estructura de la aplicación y el calendario; después «Hoy y mañana»; por último, «Mochila». La estructura comprende organizar las pantallas y la navegación básica. Esta decisión sustituye la preferencia previa de empezar por «Hoy y mañana». La implementación de la primera fase ya está autorizada; su navegación inicial es provisional.
 - En el registro se elegirá el perfil de hijo/hija o madre/padre. El perfil adaptará la vista y las opciones.
 - Habrá un calendario que indique los días con cada progenitor y permita recordar los cambios de casa.
+- La rutina automática y los cambios puntuales manuales para festivos o vacaciones están confirmados e implementados como parte prioritaria del calendario. El cuestionario inicial y su revisión son el recorrido principal; los rangos manuales se usan después para excepciones.
 - La pantalla «Hoy y mañana» mostrará con quién está hoy el hijo o la hija, con quién estará mañana y cuándo será el próximo cambio de casa.
 - El apartado «Mochila» permitirá preparar una lista personal para cada cambio de casa o estancia y marcar los elementos al prepararlos. La lista podrá reutilizarse y adaptarse a cada estancia. Podrá mostrarse desde «Hoy y mañana» cuando se acerque el cambio.
 - El recordatorio del cambio de casa avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio.
@@ -76,8 +98,7 @@ El borrador propone un calendario familiar con vistas adaptadas: el hijo o la hi
 
 ## Propuestas comentadas sin confirmar
 
-- Horarios que se repitan automáticamente.
-- Gestión de vacaciones y cambios puntuales con confirmación.
+- Confirmación o aprobación familiar de los cambios de vacaciones.
 - Uso individual aunque el resto de la familia no tenga cuenta.
 
 Estas propuestas no forman parte de los requisitos confirmados.

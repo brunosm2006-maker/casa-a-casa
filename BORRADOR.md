@@ -10,7 +10,7 @@ La idea nace de la experiencia personal de su creador al adaptarse a la custodia
 
 ## Orden de trabajo confirmado
 
-1. Primero, la estructura de la aplicación y el calendario. La estructura comprende organizar las pantallas y la navegación básica; se ha implementado una propuesta inicial con Calendario y Perfil.
+1. Primero, la estructura y el calendario, incluida como prioridad confirmada la rutina automática y los cambios puntuales. La navegación inicial tiene Calendario, Rutina y Perfil.
 2. Después, la pantalla «Hoy y mañana».
 3. Por último, «Mochila».
 
@@ -18,9 +18,17 @@ Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El 
 
 ## Qué se puede probar ahora
 
-La primera versión permite seleccionar y cambiar un perfil local, consultar meses anteriores o siguientes, asignar un día o una estancia a madre o padre, modificar o quitar esas asignaciones y conservar los cambios al recargar o reabrir. Las fechas se introducen con el formato DD/MM/AAAA y los dos extremos de una estancia están incluidos.
+Al abrir por primera vez se elige Hijo, Hija, Madre o Padre. Inmediatamente aparece un cuestionario sencillo sobre el reparto de custodia. Después se revisan las respuestas y se confirma la rutina para ver el calendario generado automáticamente. No hace falta rellenar las estancias de cada mes. Los perfiles guardados conservan su calendario y no repiten el cuestionario en cada apertura.
 
-El calendario empieza vacío. Cada día muestra «Madre», «Padre» o una raya si está sin asignar, además de un color. El próximo cambio se calcula únicamente cuando dos días consecutivos tienen casas distintas; no se deducen estancias a través de días vacíos. Puede incluir un cambio previsto para hoy.
+El cuestionario ofrece un reparto semanal configurable y una opción sencilla de fines de semana alternos. Se elige desde qué fecha empieza. Para alternar, hay que elegir un viernes de referencia fechado y con quién corresponden sus días alternos. El turno se conserva entre meses y años sin reiniciarse en enero.
+
+La plantilla semanal propone lunes y martes con madre, miércoles y jueves con padre y viernes a domingo alternos. Es un ejemplo editable que solo se aplica al confirmarlo. La opción «Fines de semana alternos» permite indicar que un hijo va con su padre un fin de semana de cada dos. El resto de días queda sin asignar salvo que se defina expresamente en el cuestionario.
+
+Antes de confirmar no se carga la plantilla como horario real. Cada día muestra «Madre», «Padre» o una raya si está sin asignar, además de un color. El próximo cambio usa la rutina y los cambios puntuales; solo aparece cuando dos días consecutivos tienen casas conocidas y distintas. No se deducen estancias a través de días vacíos. Puede incluir un cambio previsto para hoy.
+
+Para festivos, vacaciones u otros cambios se puede tocar una fecha o añadir un cambio puntual por rango. Solo se modifica ese tramo; fuera de él sigue la rutina. Las fechas usan DD/MM/AAAA y ambos extremos están incluidos. «Dejar sin asignar» mantiene el tramo vacío aunque haya rutina. «Quitar cambio puntual · recuperar rutina» retira la excepción para volver al patrón. Ambas acciones son distintas y se guardan localmente.
+
+La rutina puede cambiarse desde Rutina o «Cambiar rutina». Hay una regla activa; al cambiarla se recalcula desde su fecha de inicio, sin eliminar las excepciones. Los días guardados con la primera versión se conservan como cambios puntuales y tienen prioridad sobre cualquier regla nueva. La copia original anterior se conserva; el formato nuevo guarda la regla y sus excepciones por separado.
 
 La vista del hijo o hija muestra con quién está hoy. La de madre o padre indica si su hijo o hija está con él o ella y cuántos días tienen asignados este mes. El perfil se elige sin nombre ni cuenta. La edición local está disponible en todos los perfiles de forma provisional. Los permisos reales y la vinculación familiar siguen sin decidirse.
 
@@ -38,7 +46,7 @@ Queda por decidir quién podrá editar las fechas y cómo se vincularán las cue
 
 ### Calendario
 
-Ya permite indicar qué días corresponden a la estancia con cada progenitor y consultar los próximos cambios de casa a partir de los datos asignados.
+Ya genera automáticamente las estancias a partir del cuestionario y permite cambiar fechas concretas como excepciones. El cálculo continúa en los años siguientes; la vista y las fechas admitidas mantienen el intervalo 1900–2100. También conserva el uso manual si se decide no configurar una rutina.
 
 ### Hoy y mañana
 
@@ -95,4 +103,4 @@ El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su mad
 
 ## Ideas para valorar más adelante
 
-Se han comentado los horarios que se repiten automáticamente, la gestión de vacaciones y cambios puntuales con confirmación, y el uso individual aunque el resto de la familia no tenga cuenta. Todavía no están aceptados como requisitos.
+La rutina automática y las excepciones manuales de festivos o vacaciones ya están confirmadas e implementadas. Siguen sin confirmarse la aprobación familiar de cambios de vacaciones y el uso individual como funcionamiento definitivo aunque el resto de la familia no tenga cuenta. La edición local actual sirve para probar la aplicación.

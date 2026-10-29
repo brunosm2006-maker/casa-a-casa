@@ -1,5 +1,5 @@
 export type Home = 'madre' | 'padre';
-export type Schedule = Record<string, Home>;
+export type Schedule = Record<string, Home | null>;
 
 export function dateKey(date: Date): string {
   return `${String(date.getFullYear()).padStart(4, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;

@@ -1,6 +1,12 @@
 # Criterios de esta primera interfaz
 
-El calendario es la pantalla principal. Su acción principal es asignar una estancia. La navegación inicial tiene dos destinos: Calendario y Perfil. Es una estructura provisional para revisar, no una decisión cerrada sobre toda la aplicación.
+El primer uso sigue el recorrido Perfil → cuestionario → revisión → calendario generado. Las opciones de perfil son Hijo, Hija, Madre y Padre. La pregunta inicial se adapta: «¿Con quién te toca cada día?» para hijos o «¿Cómo se reparte la custodia?» para progenitores. La navegación tiene Calendario, Rutina y Perfil. La rutina automática es el mecanismo principal; los rangos manuales se reservan para cambios puntuales.
+
+El cuestionario tiene tres pasos: elegir el tipo de reparto, responder a las preguntas y revisar antes de guardar. Ofrece «Reparto semanal» y «Fines de semana alternos». La segunda opción resuelve un fin de semana cada dos sin configurar catorce celdas y mantiene sin asignar los días no definidos. Las plantillas no se guardan hasta confirmar. El viernes y el progenitor de referencia son campos explícitos, sin anclaje supuesto.
+
+La regla se calcula por fechas civiles y ciclos de catorce días, sin depender del año ni de las horas de cambio de horario. Las excepciones tienen prioridad, incluida una excepción vacía. Retirar una excepción recupera la regla. El próximo cambio considera ambos niveles y requiere dos días consecutivos conocidos. No se crean aprobaciones familiares ni una base de festivos.
+
+Una sola rutina activa se puede editar; la edición conserva las excepciones. Las personas que ya tenían perfil no repiten el cuestionario al abrir y mantienen sus fechas. La migración conserva la clave de almacenamiento original y escribe el formato nuevo en otra clave.
 
 Sin referencias visuales aportadas, se usa una dirección propia: fondo claro cálido, texto verde oscuro, días de madre en lavanda y de padre en ocre suave. Cada día incluye texto además de color. Las vistas se limitan a 760 puntos de ancho y mantienen siete columnas en móvil. Se emplea la tipografía del sistema, sin descargar fuentes ni imágenes.
 

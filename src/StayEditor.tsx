@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { assignRange, fromInput, inputDate, type Home, type Schedule } from './calendar';
+import { fromInput, inputDate, type Home, type Schedule } from './calendar';
+import { effectiveHome, setExceptionRange, type Routine } from './routine';
 import { Button } from './ui';
 import { colors, s } from './theme';
 
-export function StayEditor({ day, schedule, saving, storageError, onSave, onClose }: {
-  day: string; schedule: Schedule; saving: boolean; storageError: string;
+export function StayEditor({ day, schedule, routine, saving, storageError, onSave, onClose }: {
+  day: string; schedule: Schedule; routine: Routine | null; saving: boolean; storageError: string;
   onSave: (schedule: Schedule, start: string) => Promise<boolean>; onClose: () => void;
 }) {
   const [start, setStart] = useState(inputDate(day));
   const [end, setEnd] = useState(inputDate(day));
-  const [home, setHome] = useState<Home | null>(schedule[day] ?? 'madre');
+  const [home, setHome] = useState<Home | null | 'rutina'>(effectiveHome(schedule, routine, day));
   const [error, setError] = useState('');
 
   async function save() {
     setError('');
     try {
       const first = fromInput(start);
-      const next = assignRange(schedule, first, fromInput(end), home);
+      const next = setExceptionRange(schedule, first, fromInput(end), home);
       if (await onSave(next, first)) onClose();
     } catch (err) { setError(err instanceof Error ? err.message : 'Revisa las fechas.'); }
   }
@@ -30,8 +31,9 @@ export function StayEditor({ day, schedule, saving, storageError, onSave, onClos
           <Text style={s.eyebrow}>EDITAR CALENDARIO</Text>
           <Button label="Cancelar" secondary onPress={onClose} disabled={saving} />
         </View>
-        <Text accessibilityRole="header" style={s.title}>Organiza una estancia</Text>
-        <Text style={s.body}>Asigna un día o varios días seguidos. Para un solo día, usa la misma fecha en ambos campos.</Text>
+        <Text accessibilityRole="header" style={s.title}>Cambio puntual</Text>
+        <Text style={s.body}>Para vacaciones, festivos u otros cambios. La rutina continuará fuera de estas fechas. Para un solo día, usa la misma fecha en ambos campos.</Text>
+        {Object.hasOwn(schedule, day) && <Text style={s.muted}>Este día tiene un cambio puntual guardado.</Text>}
         <View style={s.card}>
           <Text style={s.body}>Desde · DD/MM/AAAA</Text>
           <TextInput autoFocus accessibilityLabel="Fecha inicial" placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted}
@@ -42,14 +44,14 @@ export function StayEditor({ day, schedule, saving, storageError, onSave, onClos
           <Text style={s.muted}>Ambas fechas están incluidas. Hasta 366 días por estancia.</Text>
         </View>
         <Text accessibilityRole="header" style={s.heading}>¿Con quién?</Text>
-        {(['madre', 'padre', null] as const).map(option => <Pressable key={option ?? 'borrar'}
+        {(['madre', 'padre', null, 'rutina'] as const).map(option => <Pressable key={option ?? 'borrar'}
           accessibilityRole="radio" accessibilityState={{ checked: home === option, disabled: saving }} disabled={saving}
           onPress={() => setHome(option)} style={[s.choice, home === option && s.chosen]}>
-          <Text style={s.body}>{option === null ? 'Quitar asignación' : option === 'madre' ? 'Con madre' : 'Con padre'}{home === option ? ' · Seleccionado' : ''}</Text>
+          <Text style={s.body}>{option === null ? 'Dejar sin asignar' : option === 'rutina' ? 'Quitar cambio puntual · recuperar rutina' : option === 'madre' ? 'Con madre' : 'Con padre'}{home === option ? ' · Seleccionado' : ''}</Text>
         </Pressable>)}
-        <Text style={s.muted}>Al guardar se sustituirá la asignación de los días del tramo. El resto del calendario se conserva.</Text>
+        <Text style={s.muted}>«Dejar sin asignar» deja esos días vacíos, aunque haya rutina. «Quitar cambio puntual» recupera la rutina; si no hay una, los deja vacíos. El resto del calendario se conserva.</Text>
         {!!(error || storageError) && <Text accessibilityRole="alert" style={s.error}>{error || storageError}</Text>}
-        <Button label={saving ? 'Guardando…' : 'Guardar estancia'} disabled={saving} onPress={() => { void save(); }} />
+        <Button label={saving ? 'Guardando…' : 'Guardar cambio puntual'} disabled={saving} onPress={() => { void save(); }} />
         <Text style={s.muted}>Los cambios se guardan solo aquí. No se enviarán avisos ni se compartirán con otra cuenta.</Text>
       </ScrollView>
     </SafeAreaView>
