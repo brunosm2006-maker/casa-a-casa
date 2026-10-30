@@ -1,0 +1,11 @@
+import { type Home } from './calendar';
+export type DayRule = Home | 'alterno' | null;
+export type Block = { days: number; home: Home };
+export type CycleTemplate = 'weeks' | 'long' | '223' | '2255' | '3443' | 'custom';
+export type PrimarySettings = { home: Home | null; guest: Home; visitDays: number[]; alternate: boolean };
+export type WeeklyRoutine = { kind?: 'weekly'; start: string; days: DayRule[]; referenceFriday: string | null; referenceHome: Home | null; otherWeekendHome: Home | null; primary?: PrimarySettings };
+export type CycleRoutine = { kind: 'cycle'; start: string; blocks: Block[]; template: CycleTemplate };
+export type MonthlyRoutine = { kind: 'months'; start: string; firstHome: Home };
+export type Routine = WeeklyRoutine | CycleRoutine | MonthlyRoutine;
+export const isWeekly = (rule: Routine): rule is WeeklyRoutine => !rule.kind || rule.kind === 'weekly';
+export const otherHome = (home: Home): Home => home === 'madre' ? 'padre' : 'madre';

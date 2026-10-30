@@ -4,7 +4,7 @@ async function begin(page: Page, profile: string, pattern: string) {
   await page.clock.install({ time: new Date('2026-10-29T12:00:00+01:00') });
   await page.goto('/');
   await page.getByRole('radio', { name: profile, exact: true }).click();
-  await expect(page.getByRole('heading', { name: profile === 'Hija' ? '¿Con quién te toca cada día?' : '¿Cómo se reparte la custodia?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: profile === 'Hija' ? '¿Cómo os organizáis habitualmente?' : '¿Cómo os organizáis habitualmente?' })).toBeVisible();
   if (profile === 'Hija') await page.screenshot({ path: 'test-results/cuestionario-inicio.png' });
   await page.getByRole('radio', { name: pattern, exact: true }).click();
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
@@ -29,7 +29,7 @@ async function editDay(page: Page, name: string, choice: string) {
 test('perfil → cuestionario semanal → revisión → calendario, excepciones y años siguientes', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await begin(page, 'Hija', 'Reparto semanal');
+  await begin(page, 'Hija', 'Días fijos y fines de semana alternos');
   await page.getByRole('button', { name: 'Revisar respuestas', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('Elige un viernes');
   await page.getByRole('textbox', { name: 'Viernes de referencia' }).fill('29/10/2026');
@@ -55,7 +55,7 @@ test('perfil → cuestionario semanal → revisión → calendario, excepciones 
   await editDay(page, '2 de noviembre de 2026, con madre', 'Con padre');
   await page.reload();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: '¿Con quién te toca cada día?' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: '¿Cómo os organizáis habitualmente?' })).toHaveCount(0);
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
   await expect(page.getByRole('button', { name: '2 de noviembre de 2026, con padre', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '3 de noviembre de 2026, con madre', exact: true })).toBeVisible();
@@ -76,10 +76,10 @@ test('perfil → cuestionario semanal → revisión → calendario, excepciones 
 });
 
 test('padre con un fin de semana de cada dos, sin asignar el resto y sin editar 14 días', async ({ page }) => {
-  await begin(page, 'Padre', 'Fines de semana alternos');
+  await begin(page, 'Padre', 'Principalmente con uno');
   await expect(page.getByRole('radio', { name: 'Lunes: Madre', exact: true })).toHaveCount(0);
   await page.getByRole('textbox', { name: 'Viernes de referencia' }).fill('30/10/2026');
-  await page.getByRole('radio', { name: 'Fin de semana de referencia: Padre', exact: true }).click();
+  await page.getByRole('radio', { name: 'Progenitor de las otras estancias: Padre', exact: true }).click();
   await finish(page);
   await expect(page.getByRole('button', { name: '26 de octubre de 2026, sin asignar', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '30 de octubre de 2026, con padre', exact: true })).toBeVisible();
@@ -99,7 +99,7 @@ test('datos antiguos conservados, configuración posterior sin forzar nuevo inic
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
   await expect(page.getByRole('button', { name: '26 de octubre de 2026, con padre', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Configurar rutina', exact: true }).click();
-  await page.getByRole('radio', { name: 'Reparto semanal', exact: true }).click();
+  await page.getByRole('radio', { name: 'Días fijos y fines de semana alternos', exact: true }).click();
   await page.getByRole('button', { name: 'Continuar', exact: true }).click();
   await page.getByRole('textbox', { name: 'Inicio de la rutina' }).fill('26/10/2026');
   await page.getByRole('textbox', { name: 'Viernes de referencia' }).fill('30/10/2026');
@@ -111,13 +111,13 @@ test('datos antiguos conservados, configuración posterior sin forzar nuevo inic
 });
 
 test('una plantilla sin confirmar no se guarda y el primer uso incompleto vuelve al cuestionario', async ({ page }) => {
-  await begin(page, 'Hija', 'Reparto semanal');
+  await begin(page, 'Hija', 'Días fijos y fines de semana alternos');
   await page.getByRole('textbox', { name: 'Viernes de referencia' }).fill('30/10/2026');
   await page.getByRole('radio', { name: 'Fin de semana de referencia: Madre', exact: true }).click();
   await page.getByRole('button', { name: 'Revisar respuestas', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Revisa tus respuestas' })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('heading', { name: '¿Con quién te toca cada día?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '¿Cómo os organizáis habitualmente?' })).toBeVisible();
   await page.getByRole('button', { name: 'Ahora no · usar calendario manual' }).click();
   await expect(page.getByText('Tu calendario empieza aquí', { exact: true })).toBeVisible();
   await page.reload();

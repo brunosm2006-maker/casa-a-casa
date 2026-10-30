@@ -1,8 +1,8 @@
 # Casa a Casa · verificación
 
-29 de octubre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
+Actualizado el 30 de octubre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
 
-## Ubicación definitiva en el Escritorio
+## Ubicación definitiva y comprobación del traslado del 29 de octubre
 
 La única carpeta principal y destino de todo trabajo futuro es `C:\Users\pc\Desktop\Bruno\Casa a Casa`, por petición expresa del usuario. Todas las ubicaciones anteriores en Documentos quedan sustituidas. No se ha tocado el otro proyecto del Bruno del Escritorio.
 
@@ -13,24 +13,32 @@ No se modificaron las claves `custodia.calendario.v1` y `custodia.calendario.v2`
 Desde el Escritorio se verificaron TypeScript, las dieciocho pruebas de lógica, la compilación web y las ocho pruebas de navegador. Se comprobó el acceso `ABRIR.cmd` con la ruta que contiene espacios, iniciado oculto, y la respuesta HTTP 200 con título «Casa a Casa». Las compilaciones móviles conservadas ya estaban verificadas en la entrega anterior; este traslado no modifica código móvil.
 
 La base de datos no ha avanzado. La propuesta existente se conserva; siguen pendientes los permisos de consulta y edición de los hijos y la vinculación familiar.
-## Comprobaciones
+## Comprobaciones de la ampliación del 30 de octubre
 
-- Dieciocho pruebas automatizadas de calendario, rutinas y persistencia, ejecutadas con `TZ=Europe/Madrid`. A los casos de la primera versión se añaden: plantilla semanal; fines de semana alternos sin inventar los días desconocidos; fecha de inicio; turno antes y después del viernes de referencia; continuidad entre años y cambio de hora; prioridad de excepciones; diferencia entre excepción vacía y retirada de excepción; cambio de regla; retorno tras una excepción larga; rutina futura; migración v1 y persistencia v2 sin sobrescribir la copia anterior.
-- Se alteró temporalmente la condición del cambio de casa. Dos pruebas fallaron y detectaron el defecto; se restauró el código y las once volvieron a pasar.
-- En esta ampliación se invirtió temporalmente el turno de fines de semana. Cuatro pruebas detectaron el defecto; después se restauró la regla y las dieciocho pruebas volvieron a pasar.
-- TypeScript: comprobación sin errores.
-- Exportación web: compilación correcta de la misma aplicación React Native.
-- Exportación iOS y Android: paquetes JavaScript/Hermes generados correctamente. El intento inicial dentro del entorno restringido falló en Hermes; la ejecución con los permisos de las herramientas nativas terminó correctamente. No se generaron IPA ni APK.
-- Ocho pruebas de navegador en Edge. Mantienen los casos manuales y añaden: perfil → cuestionario → revisión → calendario; plantilla semanal y padre con un fin de semana de cada dos; validación de viernes y progenitor explícitos; consulta de enero sin reiniciar el turno; excepciones y retirada; cambio de regla sin borrar excepciones; recarga; calendario anterior conservado al configurar; plantilla sin confirmar que no se guarda; reanudación del primer uso incompleto y elección persistida de uso manual. Se comprueban anchuras de 320, 768 y 1440 píxeles en calendario, y 320 y 390 en el formulario semanal.
-- Revisión visual de capturas móviles de 390 × 844 píxeles. La entrada al cuestionario muestra los dos caminos y la revisión precede al guardado. Los días incluyen etiquetas además del color y los cambios puntuales se marcan con asterisco.
+- 31 pruebas de lógica y persistencia con TZ=Europe/Madrid. Cubren los casos anteriores y las secuencias reales e invertidas de 2–2–3, 2–2–5–5 y 3–4–4–3; equivalencia de 2–2–5–5 con el ejemplo semanal; semanas y 14/15 días entre años; meses con febrero bisiesto; 9/5 y cambio de hora; límites del editor; dos ciclos de revisión; cambios futuros más allá de catorce días; excepciones y retorno; lectura de v1/v2; copia anterior, fallos de copia y turnos desconocidos.
+- Se introdujo temporalmente un límite incorrecto de catorce días en la búsqueda. La prueba de bloque largo falló. Se restauró el código y las 31 pruebas pasaron.
+- TypeScript sin errores.
+- Exportación web y paquetes JavaScript/Hermes para iOS y Android correctos. No son instaladores ni pruebas en teléfonos físicos.
+- 15 pruebas en Edge. Conservan primer uso, reanudación, uso manual, excepciones, recarga y errores. Añaden semanas empezando un miércoles, quince días sobre febrero bisiesto, meses naturales con inicio en día 1, dos ciclos fechados, 2–2–5–5, editor 9/5, hogar habitual con un día fijo y fin de semana alterno, y edición de una rutina v2 anterior sin perder un turno desconocido.
+- La prueba de edición posterior detectó que el estado seleccionado de los controles nuevos no se comunicaba al navegador. Se corrigió con una propiedad de accesibilidad compatible y pasó sin cambiar la selección guardada.
+- Revisión visual de capturas móviles de ciclos y meses naturales. Se muestran fechas completas, texto y los colores existentes. Se mantienen las pruebas de anchuras de 320, 768 y 1440 en calendario y 320 y 390 en formularios.
+- No hay dependencias ni servicios nuevos. El origen local se mantiene en http://127.0.0.1:8081.
 
 ## Limitaciones reales
 
 Esta versión permite revisión local. No se ha probado en iPhone o Android físicos ni en un simulador. La exportación móvil comprueba que el código se empaqueta para ambas plataformas, pero queda pendiente validar allí los controles, el almacenamiento y la accesibilidad con lectores de pantalla.
 
-No hay autenticación, cuentas vinculadas, sincronización ni permisos familiares reales. El perfil y la edición locales son supuestos provisionales para probar el producto. Los datos no se cifran ni tienen copia de seguridad de los cambios nuevos; la migración conserva la clave v1 original. En navegador dependen del origen y del perfil de navegador usados; borrarlos elimina la información guardada.
+No hay autenticación, cuentas vinculadas, sincronización ni permisos familiares reales. El perfil y la edición locales son supuestos provisionales para probar el producto. Los datos no se cifran ni se respaldan fuera del dispositivo. Se conserva la clave v1 original y la copia local puntual de v2 anterior a los patrones ampliados. En navegador dependen del origen y del perfil de navegador usados; borrarlos elimina la información guardada.
 
-Se admite una sola rutina activa. Cambiarla recalcula sus fechas desde el inicio elegido y conserva las excepciones; no hay historial de reglas con distintas fechas de vigencia. La alternancia disponible es de fines de semana de viernes a domingo, cada dos semanas; no se implementan ciclos arbitrarios. Las fechas admitidas mantienen el intervalo 1900–2100 y cada cambio puntual puede abarcar hasta 366 días. Los días no definidos permanecen sin asignar.
+Se admite una sola rutina activa. Cambiarla recalcula desde el inicio y conserva las excepciones; no hay historial de reglas con distintas vigencias.
+
+Fechas de 1900 a 2100 y cambios puntuales de hasta 366 días. El reparto personalizado tiene de 2 a 12 bloques, de 1 a 60 días enteros por bloque y hasta 90 días por ciclo, e incluye a ambos progenitores. Los dos ciclos de revisión deben caber en el intervalo admitido.
+
+Los meses naturales empiezan el día 1 y alternan meses completos, sin meses parciales implícitos. Los ciclos 2–2–3, 2–2–5–5 y 3–4–4–3 duran catorce días y muestran sus secuencias completas.
+
+Cada fecha representa el día completo y su noche. No se separan horas, tardes o noches de un mismo día. Periodos de curso/vacaciones, casa nido, rutinas progresivas y visitas por horas quedan pendientes. En «Principalmente con uno», los días elegidos de lunes a jueves son semanales; la alternancia afecta a los elegidos de viernes a domingo.
+
+Las rutinas anteriores conservan su forma y los días desconocidos. Antes del primer guardado de bloques o meses se conserva el v2 anterior en custodia.calendario.v2.pre-plantillas, si existe y aún no hay copia; los guardados siguientes no la sustituyen. La versión antigua no entiende esos tipos nuevos: recuperar el estado anterior sería una acción explícita y no se deben mezclar versiones para editar.
 
 «Hoy y mañana» y «Mochila» conservan su orden como siguientes fases. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
 

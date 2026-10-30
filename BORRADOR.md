@@ -1,6 +1,6 @@
 # Casa a Casa · borrador funcional
 
-29 de octubre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con la primera versión funcional de la estructura y el calendario. Las funciones de fases posteriores se describen como previstas.
+Actualizado el 30 de octubre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con la primera versión funcional de la estructura y el calendario. Las funciones de fases posteriores se describen como previstas.
 
 Todos los archivos del proyecto se conservan en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. Esta es la única carpeta principal y destino de todo trabajo futuro; sustituye las ubicaciones anteriores de Documentos.
 
@@ -22,9 +22,22 @@ Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El 
 
 Al abrir por primera vez se elige Hijo, Hija, Madre o Padre. Inmediatamente aparece un cuestionario sencillo sobre el reparto de custodia. Después se revisan las respuestas y se confirma la rutina para ver el calendario generado automáticamente. No hace falta rellenar las estancias de cada mes. Los perfiles guardados conservan su calendario y no repiten el cuestionario en cada apertura.
 
-El cuestionario ofrece un reparto semanal configurable y una opción sencilla de fines de semana alternos. Se elige desde qué fecha empieza. Para alternar, hay que elegir un viernes de referencia fechado y con quién corresponden sus días alternos. El turno se conserva entre meses y años sin reiniciarse en enero.
+El cuestionario ofrece semanas alternas, turnos de 14 o 15 días, meses naturales, días fijos con fines de semana alternos, ciclos 2–2–3 / 2–2–5–5 / 3–4–4–3, un hogar habitual con estancias con el otro y reparto propio por bloques.
 
-La plantilla semanal propone lunes y martes con madre, miércoles y jueves con padre y viernes a domingo alternos. Es un ejemplo editable que solo se aplica al confirmarlo. La opción «Fines de semana alternos» permite indicar que un hijo va con su padre un fin de semana de cada dos. El resto de días queda sin asignar salvo que se defina expresamente en el cuestionario.
+Solo se preguntan los datos del patrón elegido. Semanas y bloques empiezan cualquier día; los meses naturales, el día 1 y duran lo que dura cada mes. El viernes de referencia se pide únicamente cuando hay fines de semana alternos. Las rutinas anteriores conservan su anclaje y los días sin asignar.
+
+A representa al primer progenitor. Los ciclos completos son:
+- 2–2–3: A2, B2, A3, B2, A2, B3; invierte la segunda semana.
+- 2–2–5–5: A2, B2, A5, B5; al empezar un lunes coincide con el ejemplo de días fijos y fines de semana alternos, empezando ese fin de semana con A.
+- 3–4–4–3: A3, B4, A4, B3.
+
+«Principalmente con uno» permite indicar hogar habitual, días completos con el otro y fines de semana semanales o alternos. Mantiene el caso de solo un fin de semana de cada dos dejando el resto sin asignar. Los días elegidos de lunes a jueves se repiten cada semana; la alternancia se aplica a los elegidos de viernes a domingo.
+
+El reparto propio admite de 2 a 12 bloques, con 1 a 60 días enteros por bloque y hasta 90 días por ciclo. Debe incluir a ambos progenitores. Por ejemplo, nueve días con madre y cinco con padre.
+
+Antes de confirmar se revisan dos ciclos completos, con fechas, texto y color. En meses naturales se ven cuatro meses reales. La vista incluye los cambios puntuales y explica la asignación habitual en esas fechas. No se guarda hasta confirmar.
+
+Cada fecha representa una casa para el día completo y su noche. Esta fase no divide el día en horas, tardes o noches separadas. Las reglas continúan entre meses y años, también en años bisiestos y cambios de hora. Horarios, periodos de curso/vacaciones, casa nido y rutinas progresivas quedan para después.
 
 Antes de confirmar no se carga la plantilla como horario real. Cada día muestra «Madre», «Padre» o una raya si está sin asignar, además de un color. El próximo cambio usa la rutina y los cambios puntuales; solo aparece cuando dos días consecutivos tienen casas conocidas y distintas. No se deducen estancias a través de días vacíos. Puede incluir un cambio previsto para hoy.
 

@@ -13,7 +13,7 @@ function Choices({ title, value, options, onChange, disabled }: {
 }) {
   return <View style={{ gap: 8 }}><Text style={[s.body, { fontWeight: '600' }]}>{title}</Text>
     <View style={[s.row, { gap: 8 }]}>{options.map(home => <Pressable key={home ?? 'empty'} accessibilityRole="radio"
-      accessibilityLabel={`${title}: ${label(home)}`} accessibilityState={{ checked: value === home, disabled }} disabled={disabled}
+      accessibilityLabel={`${title}: ${label(home)}`} aria-checked={value === home} accessibilityState={{ checked: value === home, disabled }} disabled={disabled}
       onPress={() => onChange(home)} style={[s.choice, { minHeight: 46 }, value === home && s.chosen]}>
       <Text style={s.body}>{label(home)}{value === home ? ' ✓' : ''}</Text>
     </Pressable>)}</View>

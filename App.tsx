@@ -47,7 +47,7 @@ function CalendarApp() {
       {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}
       {(!state.profile || screen === 'profile') ? <ProfileScreen profile={state.profile} saving={saving} onChoose={async profile => {
         if (await commit({ ...state, profile })) setScreen(state.profile ? 'calendar' : 'routine');
-      }} /> : screen === 'routine' ? <RoutineScreen routine={state.routine} profile={state.profile} today={today} saving={saving} storageError={error} onStep={scrollTop}
+      }} /> : screen === 'routine' ? <RoutineScreen routine={state.routine} exceptions={state.schedule} profile={state.profile} today={today} saving={saving} storageError={error} onStep={scrollTop}
         onClose={async () => { if (state.setupComplete || await commit({ ...state, setupComplete: true })) setScreen('calendar'); }} onSave={async routine => {
           const success = await commit({ ...state, routine, setupComplete: true });
           if (success) { const date = parseDate(routine.start); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('calendar'); }

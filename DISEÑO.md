@@ -2,13 +2,19 @@
 
 «Casa a Casa» es el nombre definitivo. Se usa en la cabecera y en la configuración visible, conservando el diseño existente. El proyecto completo está en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. El cambio de nombre no modifica las claves de almacenamiento ni el origen `http://127.0.0.1:8081`.
 
-El primer uso sigue el recorrido Perfil → cuestionario → revisión → calendario generado. Las opciones de perfil son Hijo, Hija, Madre y Padre. La pregunta inicial se adapta: «¿Con quién te toca cada día?» para hijos o «¿Cómo se reparte la custodia?» para progenitores. La navegación tiene Calendario, Rutina y Perfil. La rutina automática es el mecanismo principal; los rangos manuales se reservan para cambios puntuales.
+El primer uso sigue Perfil → cuestionario → revisión → calendario. La pregunta inicial es «¿Cómo os organizáis habitualmente?»; el texto de ayuda se adapta al perfil. Se mantienen la navegación, los colores y el diseño existentes.
 
-El cuestionario tiene tres pasos: elegir el tipo de reparto, responder a las preguntas y revisar antes de guardar. Ofrece «Reparto semanal» y «Fines de semana alternos». La segunda opción resuelve un fin de semana cada dos sin configurar catorce celdas y mantiene sin asignar los días no definidos. Las plantillas no se guardan hasta confirmar. El viernes y el progenitor de referencia son campos explícitos, sin anclaje supuesto.
+El cuestionario ofrece seis caminos: semanas alternas, periodos más largos, días fijos con fines de semana alternos, ciclos de varios días, principalmente con uno y reparto personalizado. Solo se muestran los campos del patrón. El viernes de referencia se pide únicamente para fines de semana alternos.
 
-La regla se calcula por fechas civiles y ciclos de catorce días, sin depender del año ni de las horas de cambio de horario. Las excepciones tienen prioridad, incluida una excepción vacía. Retirar una excepción recupera la regla. El próximo cambio considera ambos niveles y requiere dos días consecutivos conocidos. No se crean aprobaciones familiares ni una base de festivos.
+La revisión muestra dos ciclos completos como tramos fechados con texto y color. Los meses naturales usan meses reales: cada ciclo contiene dos meses y la revisión muestra cuatro. Las excepciones aparecen con su asignación efectiva y la que tendría la rutina. El guardado requiere confirmación.
 
-Una sola rutina activa se puede editar; la edición conserva las excepciones. Las personas que ya tenían perfil no repiten el cuestionario al abrir y mantienen sus fechas. La migración conserva la clave de almacenamiento original y escribe el formato nuevo en otra clave.
+Las secuencias se explican antes de revisar: 2–2–3 invierte la segunda semana; 2–2–5–5 es A2/B2/A5/B5; 3–4–4–3 es A3/B4/A4/B3. El reparto personalizado mantiene un editor acotado: de 2 a 12 bloques, de 1 a 60 días por bloque y hasta 90 días en total.
+
+Las fechas representan días completos con su noche. No hay controles de visitas por horas ni de noches separadas. Los días desconocidos se conservan sin asignar.
+
+El cálculo usa fechas civiles: diferencias de días para bloques, diferencias de meses para meses naturales y el anclaje original para rutinas semanales. La búsqueda del próximo cambio cubre el periodo de cada patrón y las excepciones, en lugar de asumir catorce días.
+
+Las rutinas anteriores mantienen sus datos. El editor evita convertirlas a un atajo que pierda turnos desconocidos. Las claves principales v1/v2 no cambian; se conserva una copia v2 anterior al primer guardado de bloques o meses. Las excepciones siguen teniendo prioridad y retirarlas recupera la rutina.
 
 Sin referencias visuales aportadas, se usa una dirección propia: fondo claro cálido, texto verde oscuro, días de madre en lavanda y de padre en ocre suave. Cada día incluye texto además de color. Las vistas se limitan a 760 puntos de ancho y mantienen siete columnas en móvil. Se emplea la tipografía del sistema, sin descargar fuentes ni imágenes.
 

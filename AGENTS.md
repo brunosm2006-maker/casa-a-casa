@@ -7,3 +7,5 @@ El nombre definitivo de la aplicación y de su carpeta es «Casa a Casa». La ú
 El usuario ha autorizado empezar la implementación. La fase actual comprende estructura, navegación básica y calendario. Después se desarrollará «Hoy y mañana» y, por último, «Mochila». Mantén las cuentas familiares y los permisos como decisiones pendientes; la edición y el perfil locales son provisionales. No publiques ni incorpores servicios externos sin una nueva instrucción.
 
 La rutina automática y las excepciones manuales están confirmadas. El primer uso debe pasar directamente del perfil al cuestionario, luego a la revisión y al calendario generado. Conserva los patrones semanal y de fines de semana alternos, el anclaje fechado, los días no definidos y la migración de datos anteriores.
+
+La ampliación autorizada del 30 de octubre incluye semanas, 14/15 días, meses naturales, ciclos y reparto personalizado, con dos ciclos completos de revisión. Horarios dentro del día, visitas por horas, periodos de curso/vacaciones, casa nido y rutinas progresivas quedan para después. Conserva las rutinas anteriores, sus días desconocidos y sus excepciones.

@@ -32,20 +32,38 @@ Hay una primera versión funcional de Casa a Casa, con estructura y calendario, 
 
 El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y ver el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
 
-Incluye rutina automática semanal y fines de semana alternos, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
+Incluye las plantillas ampliadas y el reparto personalizado, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
 
 ## Rutina automática y cambios puntuales
 
-El cuestionario ofrece dos caminos:
+El cuestionario empieza con «¿Cómo os organizáis habitualmente?» y ofrece seis opciones:
 
-- **Reparto semanal**: plantilla editable de lunes y martes con madre, miércoles y jueves con padre y viernes a domingo alternos. Cada día puede ajustarse; también puede dejarse sin asignar.
-- **Fines de semana alternos**: un viernes a domingo cada dos semanas con el progenitor elegido. No requiere editar catorce días. Se pregunta por los días entre semana y los otros fines de semana; por defecto quedan sin asignar si no se definen.
+| Opción | Reparto disponible |
+| --- | --- |
+| Semanas alternas | Siete días con cada progenitor, desde cualquier día elegido. |
+| Periodos más largos | Turnos de 14 o 15 días o meses naturales alternos. Los meses empiezan el día 1 y terminan el último día real del mes; no son bloques de 30 días. |
+| Días fijos y fines de semana alternos | Mantiene el ejemplo lunes/martes madre, miércoles/jueves padre y viernes a domingo alternos. Cada día puede ajustarse o dejarse sin asignar. |
+| Ciclos de varios días | 2–2–3, 2–2–5–5 y 3–4–4–3, con fecha y primer progenitor elegibles. |
+| Principalmente con uno | Progenitor habitual o resto sin asignar, días completos con el otro y fines de semana semanales o alternos. |
+| Crear mi propio reparto | Bloques que se repiten, por ejemplo nueve días con madre y cinco con padre. |
 
-En ambos casos se elige la fecha de inicio. Si hay alternancia, es obligatorio indicar un viernes de referencia y su progenitor. El formulario muestra el fin de semana fechado y permite definir con quién corresponden los otros fines de semana. La alternancia se ancla a esa fecha, continúa entre años y no se reinicia en enero. El calendario se calcula al consultar cada fecha, sin generar solo un año fijo.
+Solo los patrones con fines de semana alternos piden un viernes de referencia. Los demás empiezan el día elegido. En los ciclos, A es el primer progenitor y B el otro:
 
-Tras revisar las respuestas, «Guardar rutina y ver calendario» aplica la regla. «Ahora no» permite mantener el calendario manual. Se puede volver al cuestionario desde Rutina o desde «Cambiar rutina». Hay una sola regla activa: cambiarla recalcula sus fechas desde el inicio elegido y conserva todos los cambios puntuales.
+- 2–2–3: A2 → B2 → A3 → B2 → A2 → B3. La segunda semana invierte el reparto.
+- 2–2–5–5: A2 → B2 → A5 → B5. Al empezar un lunes coincide con lunes/martes A, miércoles/jueves B y fines de semana alternos, empezando el fin de semana con A.
+- 3–4–4–3: A3 → B4 → A4 → B3.
 
-Para festivos o vacaciones, toca un día o usa «Añadir cambio puntual». El cambio tiene prioridad sobre la rutina y solo afecta al tramo elegido. «Dejar sin asignar» crea una excepción vacía. «Quitar cambio puntual · recuperar rutina» elimina la excepción; si no hay rutina, el día vuelve a quedar vacío. Un asterisco marca los cambios puntuales. El próximo cambio solo aparece si dos días consecutivos tienen casas conocidas y distintas.
+Antes de confirmar se muestran dos ciclos completos en tramos con fechas incluidas, texto y color. Un ciclo reúne todo el patrón antes de repetirse: en semanas alternas dura 14 días; en meses naturales son dos meses, por lo que se revisan cuatro meses reales. La vista incluye las excepciones guardadas y explica qué diría la rutina en esas fechas.
+
+Cada fecha asigna una casa para el día completo y su noche. No se separan horas, tardes o noches de un mismo día. En «Principalmente con uno», los días seleccionados de lunes a jueves se repiten semanalmente; la alternancia se aplica a los días seleccionados de viernes a domingo. El resto permanece sin asignar si no se define.
+
+«Guardar rutina y ver calendario» aplica el patrón. «Ahora no» conserva el uso manual. Las plantillas sin confirmar no se guardan. La rutina puede editarse después. Hay una sola regla activa, sin historial de varias reglas con distintas vigencias; cambiarla recalcula desde su inicio y conserva las excepciones.
+
+Para festivos o vacaciones se toca una fecha o se usa «Añadir cambio puntual». «Dejar sin asignar» crea una excepción vacía. «Quitar cambio puntual · recuperar rutina» retira la excepción y vuelve al patrón. Las excepciones siempre prevalecen, incluso al cambiar de plantilla. El próximo cambio requiere dos días consecutivos con casas conocidas y distintas; la búsqueda cubre bloques largos y meses, sin limitarse a catorce días.
+
+El reparto personalizado admite de 2 a 12 bloques, de 1 a 60 días enteros por bloque, hasta 90 días por ciclo e incluye a ambos progenitores. Las fechas admitidas siguen en 1900–2100 y se debe poder mostrar la revisión completa dentro de ese intervalo. Cada excepción por rango admite hasta 366 días.
+
+Horarios dentro del día, periodos de curso/vacaciones, casa nido y rutinas progresivas quedan para fases posteriores.
 
 ## Conservación de los datos anteriores
 
@@ -55,7 +73,13 @@ La clave v1 permanece intacta como copia del estado anterior. Volver al código 
 
 La vista del hijo indica con quién está hoy. Las vistas de madre y padre indican si su hijo o hija está con ellos y cuántos días tienen asignados en el mes. Todas permiten editar en este prototipo; esto no establece los permisos familiares definitivos.
 
-## Cómo abrir la primera versión
+Las rutinas semanales anteriores se siguen leyendo sin cambiar sus días ni su viernes de referencia, incluidos los turnos desconocidos. Si «Principalmente con uno» no puede representarlas exactamente, se conserva su editor semanal.
+
+Se mantienen las claves principales v1/v2 y el origen local. Los nuevos tipos distinguen semanal, ciclo por bloques y meses naturales. Antes del primer guardado de un ciclo por bloques o meses se conserva el v2 anterior en la clave custodia.calendario.v2.pre-plantillas, si ya existía y aún no hay copia. No se sobrescribe esa copia en guardados posteriores. Si no se puede conservar, no se sobrescribe el calendario. Es una copia local puntual, no un respaldo remoto.
+
+La versión antigua no puede leer los tipos nuevos de bloques y meses. Para volver a ella habría que recuperar explícitamente el estado anterior; no se deben alternar versiones antiguas y nuevas para editar.
+
+## Cómo abrir Casa a Casa
 
 Haz doble clic en `ABRIR.cmd` y abre [la aplicación local](http://127.0.0.1:8081). También puedes ejecutar `npm run preview` desde esta carpeta. La carpeta `dist` contiene la versión web ya compilada. El servidor debe permanecer abierto; puedes detenerlo con Ctrl+C. Si ya está abierto, basta con visitar la dirección. También puedes iniciar la vista de desarrollo con `npm run web`.
 
@@ -65,11 +89,11 @@ Los datos se guardan en el almacenamiento local de la aplicación o del navegado
 
 ## Verificación
 
-- `npm test`: dieciocho pruebas de calendario, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren ambos patrones, inicio, alternancia entre años, cambio de hora, excepciones, retirada de excepciones, migración de datos y fallos de almacenamiento.
+- `npm test`: treinta y una pruebas de calendario, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: ocho pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, ambos patrones, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
+- `npm run test:browser`: quince pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
