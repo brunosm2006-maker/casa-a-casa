@@ -1,5 +1,6 @@
+import { DateInput } from './DateInput';
 import React from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { type Home } from './calendar';
 import { Choice, homeOptions } from './RoutineControls';
 import { dayNames } from './RoutineFields';
@@ -27,7 +28,7 @@ export function PrimaryFields({ home, setHome, guest, setGuest, days, setDays, a
       <Text style={s.heading}>Primer fin de semana de esas estancias</Text>
       <Text style={s.body}>Indica el viernes de un fin de semana con el progenitor de las otras estancias. Ese turno se repetirá cada dos semanas.</Text>
       <Text style={s.muted}>Viernes de referencia · DD/MM/AAAA</Text>
-      <TextInput accessibilityLabel="Viernes de referencia" value={friday} onChangeText={setFriday} style={s.input} maxLength={10} autoCorrect={false} placeholder="DD/MM/AAAA" />
+      <DateInput accessibilityLabel="Viernes de referencia" value={friday} onChangeText={setFriday} style={s.input} autoCorrect={false} placeholder="DD/MM/AAAA" />
     </View>}
   </>;
 }

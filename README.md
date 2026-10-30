@@ -87,13 +87,16 @@ Para instalar de nuevo las dependencias, usa `npm ci`. Para recompilar la vista 
 
 Los datos se guardan en el almacenamiento local de la aplicación o del navegador. No se sincronizan entre dispositivos ni perfiles familiares reales. En web, conserva la misma dirección y el mismo navegador para recuperar los datos; borrar sus datos elimina el calendario. AsyncStorage no cifra el contenido. Esta primera versión sirve para revisión local.
 
+
+Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de cambios puntuales añaden las barras automáticamente: 30102026 se muestra como 30/10/2026. Admiten pegado con o sin separadores, hasta ocho dígitos, y conservan el borrado y la edición del cursor. La validación de fechas reales permanece activa.
+
 ## Verificación
 
-- `npm test`: treinta y una pruebas de calendario, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
+- `npm test`: treinta y seis pruebas de calendario, edición de fechas, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: quince pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
+- `npm run test:browser`: dieciséis pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 

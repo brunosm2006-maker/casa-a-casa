@@ -58,3 +58,9 @@ npm run test:browser
 ```
 
 Las pruebas de navegador usan Edge y arrancan un servidor en `127.0.0.1:8081`. El servidor solo acepta conexiones locales. No requieren cuentas, teléfonos ni datos personales reales.
+
+## Ajuste de entrada de fechas del 30 de octubre
+
+Un campo común añade barras al escribir, filtra los separadores pegados y limita a ocho dígitos. Se utiliza en inicio de rutina, viernes de referencia de ambos recorridos y fechas inicial/final de cambios puntuales. El cálculo de rutinas y las claves de guardado no cambian.
+
+Cinco pruebas nuevas cubren escritura secuencial, pegado con barras/guiones/puntos/espacios, límite de dígitos, retroceso y borrado junto a una barra, sustitución del mes con cursor intermedio, limpieza del campo y rechazo de fechas inexistentes. Una prueba nueva de navegador reproduce esas acciones y guarda un cambio puntual. Pasan 36 pruebas de lógica, las 16 de navegador y TypeScript. Se reconstruyó la vista web y se generaron correctamente los paquetes de iPhone y Android. La prueba física del teclado en iPhone y Android sigue pendiente.

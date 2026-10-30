@@ -1,5 +1,6 @@
+import { DateInput } from './DateInput';
 import React, { useState } from 'react';
-import { Modal, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fromInput, inputDate, type Home, type Schedule } from './calendar';
 import { effectiveHome, setExceptionRange, type Routine } from './routine';
@@ -36,11 +37,11 @@ export function StayEditor({ day, schedule, routine, saving, storageError, onSav
         {Object.hasOwn(schedule, day) && <Text style={s.muted}>Este día tiene un cambio puntual guardado.</Text>}
         <View style={s.card}>
           <Text style={s.body}>Desde · DD/MM/AAAA</Text>
-          <TextInput autoFocus accessibilityLabel="Fecha inicial" placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted}
-            value={start} onChangeText={setStart} style={s.input} maxLength={10} editable={!saving} autoCorrect={false} />
+          <DateInput autoFocus accessibilityLabel="Fecha inicial" placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted}
+            value={start} onChangeText={setStart} style={s.input} editable={!saving} autoCorrect={false} />
           <Text style={s.body}>Hasta · DD/MM/AAAA</Text>
-          <TextInput accessibilityLabel="Fecha final" placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted}
-            value={end} onChangeText={setEnd} style={s.input} maxLength={10} editable={!saving} autoCorrect={false} />
+          <DateInput accessibilityLabel="Fecha final" placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted}
+            value={end} onChangeText={setEnd} style={s.input} editable={!saving} autoCorrect={false} />
           <Text style={s.muted}>Ambas fechas están incluidas. Hasta 366 días por estancia.</Text>
         </View>
         <Text accessibilityRole="header" style={s.heading}>¿Con quién?</Text>

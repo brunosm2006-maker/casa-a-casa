@@ -1,5 +1,6 @@
+import { DateInput } from './DateInput';
 import React from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { type Home } from './calendar';
 import { colors, s } from './theme';
 export function Choice<T extends string | null>({ title, value, options, onChange, disabled = false }: {
@@ -15,7 +16,7 @@ export function Choice<T extends string | null>({ title, value, options, onChang
 export const homeOptions: { value: Home; label: string }[] = [{ value: 'madre', label: 'Madre' }, { value: 'padre', label: 'Padre' }];
 export function StartField({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return <View style={s.card}><Text style={s.heading}>¿Desde qué fecha?</Text><Text style={s.muted}>Inicio de la rutina · DD/MM/AAAA</Text>
-    <TextInput accessibilityLabel="Inicio de la rutina" value={value} onChangeText={onChange} maxLength={10} style={s.input} autoCorrect={false}
+    <DateInput accessibilityLabel="Inicio de la rutina" value={value} onChangeText={onChange} style={s.input} autoCorrect={false}
       placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted} />
   </View>;
 }

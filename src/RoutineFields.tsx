@@ -1,5 +1,6 @@
+import { DateInput } from './DateInput';
 import React from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { addDays, displayDate, fromInput, type Home } from './calendar';
 import { type DayRule } from './routine';
 import { colors, s } from './theme';
@@ -30,8 +31,8 @@ export function RoutineFields({ pattern, start, setStart, days, setDays, friday,
   return <>
     <View style={s.card}>
       <Text style={s.heading}>¿Desde qué fecha?</Text><Text style={s.muted}>Inicio de la rutina · DD/MM/AAAA</Text>
-      <TextInput accessibilityLabel="Inicio de la rutina" value={start} onChangeText={setStart} editable={!saving}
-        style={s.input} maxLength={10} placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted} autoCorrect={false} />
+      <DateInput accessibilityLabel="Inicio de la rutina" value={start} onChangeText={setStart} editable={!saving}
+        style={s.input} placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted} autoCorrect={false} />
     </View>
     <View style={s.card}>
       <Text accessibilityRole="header" style={s.heading}>{pattern === 'weekly' ? 'Días habituales' : 'De lunes a jueves'}</Text>
@@ -47,8 +48,8 @@ export function RoutineFields({ pattern, start, setStart, days, setDays, friday,
       <Text accessibilityRole="header" style={s.heading}>Un fin de semana de referencia</Text>
       <Text style={s.body}>Elige un viernes conocido. Los días alternos de ese fin de semana serán con el progenitor que indiques; el turno se repetirá cada dos semanas.</Text>
       <Text style={s.muted}>Viernes de referencia · DD/MM/AAAA</Text>
-      <TextInput accessibilityLabel="Viernes de referencia" value={friday} onChangeText={setFriday} editable={!saving}
-        style={s.input} maxLength={10} placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted} autoCorrect={false} />
+      <DateInput accessibilityLabel="Viernes de referencia" value={friday} onChangeText={setFriday} editable={!saving}
+        style={s.input} placeholder="DD/MM/AAAA" placeholderTextColor={colors.muted} autoCorrect={false} />
       {!!referenceLabel && <Text style={s.muted}>Del {referenceLabel}.</Text>}
       <Choices title="Fin de semana de referencia" value={referenceHome} options={['madre', 'padre']} disabled={saving}
         onChange={home => { if (home === 'madre' || home === 'padre') setReferenceHome(home); }} />
