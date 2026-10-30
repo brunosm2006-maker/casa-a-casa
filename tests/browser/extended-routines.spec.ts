@@ -15,7 +15,10 @@ async function review(page: Page) {
   await expect(page.getByTestId('preview-cycle-2')).toBeAttached();
 }
 async function save(page: Page) {
-  await page.getByRole('button', { name: 'Guardar rutina y ver calendario', exact: true }).click();
+  await page.getByRole('button', { name: 'Guardar rutina', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Hoy y mañana', exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
 }
 const day = (page: Page, date: string, home: string) => page.getByRole('button', { name: date + ', ' + home, exact: true });
@@ -30,6 +33,7 @@ test('semanas alternas en miércoles: dos ciclos fechados, recarga y edición po
   await save(page);
   await expect(day(page, '28 de octubre de 2026', 'con padre')).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
   await expect(day(page, '3 de noviembre de 2026', 'con padre')).toBeVisible();
   await expect(day(page, '4 de noviembre de 2026', 'con madre')).toBeVisible();
@@ -100,6 +104,7 @@ test('reparto 9/5: validación, añadir y quitar bloques, confirmación y recarg
   await expect(day(page, '9 de octubre de 2026', 'con madre')).toBeVisible();
   await expect(day(page, '10 de octubre de 2026', 'con padre')).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(day(page, '15 de octubre de 2026', 'con madre')).toBeVisible();
 });
 

@@ -12,15 +12,15 @@ La idea nace de la experiencia personal de su creador al adaptarse a la custodia
 
 ## Orden de trabajo confirmado
 
-1. Primero, la estructura y el calendario, incluida como prioridad confirmada la rutina automática y los cambios puntuales. La navegación inicial tiene Calendario, Rutina y Perfil.
-2. Después, la pantalla «Hoy y mañana».
+1. Primero, la estructura y el calendario, incluida como prioridad confirmada la rutina automática y los cambios puntuales. La navegación tiene Hoy y mañana, Calendario, Rutina y Perfil.
+2. Después, «Hoy y mañana», ya implementada.
 3. Por último, «Mochila».
 
-Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El usuario ya ha autorizado empezar la implementación de la primera fase. Se ha usado Expo y React Native para compartir la base entre iPhone, Android y la vista web local. La publicación sigue pendiente de autorización.
+Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El usuario ya ha autorizado empezar la implementación de la primera fase. Se ha usado Expo y React Native para compartir la base entre iPhone, Android y la vista web local. La segunda fase, Hoy y mañana, ya está implementada. La publicación sigue pendiente de autorización.
 
 ## Qué se puede probar ahora
 
-Al abrir por primera vez se elige Hijo, Hija, Madre o Padre. Inmediatamente aparece un cuestionario sencillo sobre el reparto de custodia. Después se revisan las respuestas y se confirma la rutina para ver el calendario generado automáticamente. No hace falta rellenar las estancias de cada mes. Los perfiles guardados conservan su calendario y no repiten el cuestionario en cada apertura.
+Al abrir por primera vez se elige Hijo, Hija, Madre o Padre. Inmediatamente aparece un cuestionario sencillo sobre el reparto de custodia. Después se revisan las respuestas y se confirma la rutina para abrir Hoy y mañana, con acceso al calendario generado automáticamente. No hace falta rellenar las estancias de cada mes. Los perfiles guardados conservan su calendario y no repiten el cuestionario en cada apertura.
 
 El cuestionario ofrece semanas alternas, turnos de 14 o 15 días, meses naturales, días fijos con fines de semana alternos, ciclos 2–2–3 / 2–2–5–5 / 3–4–4–3, un hogar habitual con estancias con el otro y reparto propio por bloques.
 
@@ -65,16 +65,13 @@ Ya genera automáticamente las estancias a partir del cuestionario y permite cam
 
 ### Hoy y mañana
 
-Pendiente de la segunda fase.
+Ya está implementada y se abre como inicio habitual. Para hijos e hijas muestra con quién está prevista la estancia de hoy y mañana y cuándo será el próximo cambio. Para madres y padres adapta los textos a las estancias previstas de su hijo o hija, sin inventar nombres ni cuentas vinculadas.
 
-Esta pantalla mostrará:
+Las fechas y casas proceden del calendario efectivo, incluidas las excepciones. Los días desconocidos se muestran sin asignar. Si el cambio está previsto para hoy no se inventa una hora; si faltan datos se explica por qué no se puede determinar el siguiente cambio.
 
-- Con quién está hoy el hijo o la hija.
-- Con quién estará mañana.
-- Cuándo será el próximo cambio de casa.
+Ofrece acceso al calendario y a configurar o cambiar la rutina, con el perfil siempre accesible en la navegación. Se actualiza al guardar cambios, cambiar de perfil, pasar la medianoche y volver a la aplicación. Usa fechas locales del dispositivo.
 
-Cuando se acerque un cambio, también podrá mostrar la lista correspondiente de «Mochila» para empezar a prepararla.
-
+Las listas de Mochila podrán aparecer aquí en una fase futura. Todavía no hay botón ni listas de Mochila ni notificaciones del sistema.
 ### Mochila
 
 Pendiente de la tercera fase.

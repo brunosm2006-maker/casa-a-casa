@@ -31,6 +31,7 @@ test('calendario vacío, rango entre años, edición, borrado, perfiles y persis
   await stay(page, '03/01/2027', '04/01/2027', 'padre');
   await expect(page.getByRole('heading', { name: '3 de enero de 2027 · con padre', exact: true })).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
@@ -44,8 +45,10 @@ test('calendario vacío, rango entre años, edición, borrado, perfiles y persis
   await expect(page.getByText('Sin cambios definidos', { exact: true })).toBeVisible();
   await page.getByRole('tab', { name: 'Perfil', exact: true }).click();
   await page.getByRole('radio', { name: 'Padre', exact: false }).click();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByText('2 días contigo este mes.', { exact: false })).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByText('Padre', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Ir a hoy', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'octubre', exact: true })).toBeVisible();
@@ -74,6 +77,7 @@ test('interfaz sin desbordamiento a 320, 768 y 1440 píxeles', async ({ page }) 
   await page.getByRole('button', { name: 'Ahora no · usar calendario manual' }).click();
   for (const width of [320, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }

@@ -24,7 +24,7 @@ export function ProfileScreen({ profile, saving, onChoose }: {
     <Text style={s.muted}>Esta selección se guarda solo en este dispositivo. No necesitas un nombre ni una cuenta.</Text>
     <View style={s.card}>
       <Text accessibilityRole="header" style={s.heading}>Primera versión</Text>
-      <Text style={s.body}>Ya puedes organizar el calendario. Después prepararemos «Hoy y mañana» y, más adelante, «Mochila».</Text>
+      <Text style={s.body}>Puedes organizar tu calendario y consultar las estancias previstas de hoy y mañana.</Text>
       <Text style={s.muted}>Las cuentas familiares y los permisos se definirán más adelante. Por ahora, todos los perfiles pueden probar la edición local.</Text>
     </View>
   </View>;

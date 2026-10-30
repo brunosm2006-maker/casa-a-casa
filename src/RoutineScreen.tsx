@@ -104,7 +104,7 @@ export function RoutineScreen({ routine, exceptions, profile, today, saving, sto
       <RoutineReview routine={review.routine} cycles={review.cycles} />
       <Text style={s.muted}>No se programarán avisos. Los cambios puntuales se conservarán.</Text>
       {!!storageError && <Text accessibilityRole="alert" style={s.error}>{storageError}</Text>}
-      <Button label={saving ? 'Guardando…' : 'Guardar rutina y ver calendario'} disabled={saving} onPress={async () => { await onSave(review.routine); }} />
+      <Button label={saving ? 'Guardando…' : 'Guardar rutina'} disabled={saving} onPress={async () => { await onSave(review.routine); }} />
       <Button label="Cambiar respuestas" secondary disabled={saving} onPress={() => go(2)} />
     </>}
     <Button label={routine ? 'Cancelar' : 'Ahora no · usar calendario manual'} secondary disabled={saving} onPress={onClose} />

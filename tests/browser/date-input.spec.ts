@@ -34,7 +34,9 @@ test('fechas: escritura, borrado junto a barra, edición de mes, pegado y valida
   await expect(friday).toHaveValue('30/10/2026');
   await page.getByRole('radio', { name: 'Fin de semana de referencia: Madre', exact: true }).click();
   await page.getByRole('button', { name: 'Revisar respuestas', exact: true }).click();
-  await page.getByRole('button', { name: 'Guardar rutina y ver calendario', exact: true }).click();
+  await page.getByRole('button', { name: 'Guardar rutina', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Hoy y mañana', exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await page.getByRole('button', { name: 'Añadir cambio puntual', exact: true }).click();
   await page.getByRole('textbox', { name: 'Fecha inicial' }).fill('31102026');
   await page.getByRole('textbox', { name: 'Fecha final' }).fill('31/10/2026');

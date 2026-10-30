@@ -1,21 +1,23 @@
+import { TodayScreen } from './src/TodayScreen';
+import { useLocalDate } from './src/useLocalDate';
 import React, { useEffect, useRef, useState } from 'react';
-import { AppState as NativeAppState, Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { CalendarScreen } from './src/CalendarScreen';
 import { ProfileScreen, profileLabel } from './src/ProfileScreen';
 import { StayEditor } from './src/StayEditor';
 import { RoutineScreen } from './src/RoutineScreen';
-import { dateKey, moveMonth, parseDate } from './src/calendar';
+import { moveMonth, parseDate } from './src/calendar';
 import { useLocalState } from './src/useLocalState';
 import { Button } from './src/ui';
 import { colors, s } from './src/theme';
 
 function CalendarApp() {
   const { state, loading, saving, error, loadFailed, reload, commit } = useLocalState();
-  const [today, setToday] = useState(() => dateKey(new Date()));
+  const today = useLocalDate();
   const [visible, setVisible] = useState(() => ({ year: new Date().getFullYear(), month: new Date().getMonth() }));
-  const [screen, setScreen] = useState<'calendar' | 'profile' | 'routine'>('calendar');
+  const [screen, setScreen] = useState<'today' | 'calendar' | 'profile' | 'routine'>('today');
   const [editing, setEditing] = useState<string | null>(null);
   const scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const scrollTop = () => scroll.current?.scrollTo({ y: 0, animated: false });
@@ -23,13 +25,6 @@ function CalendarApp() {
   useEffect(() => {
     if (!loading && state.profile && !state.setupComplete) setScreen('routine');
   }, [loading, state.profile, state.setupComplete]);
-
-  useEffect(() => {
-    const refresh = () => setToday(dateKey(new Date()));
-    const timer = setInterval(refresh, 30_000);
-    const listener = NativeAppState.addEventListener('change', status => { if (status === 'active') refresh(); });
-    return () => { clearInterval(timer); listener.remove(); };
-  }, []);
 
   if (loading || loadFailed) return <SafeAreaView style={s.root}><View style={s.content}>
     <Text style={s.heading}>{loading ? 'Abriendo tu calendario…' : 'No se pudo abrir el calendario'}</Text>
@@ -46,13 +41,15 @@ function CalendarApp() {
       </View>
       {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}
       {(!state.profile || screen === 'profile') ? <ProfileScreen profile={state.profile} saving={saving} onChoose={async profile => {
-        if (await commit({ ...state, profile })) setScreen(state.profile ? 'calendar' : 'routine');
+        if (await commit({ ...state, profile })) setScreen(state.profile ? 'today' : 'routine');
       }} /> : screen === 'routine' ? <RoutineScreen routine={state.routine} exceptions={state.schedule} profile={state.profile} today={today} saving={saving} storageError={error} onStep={scrollTop}
-        onClose={async () => { if (state.setupComplete || await commit({ ...state, setupComplete: true })) setScreen('calendar'); }} onSave={async routine => {
+        onClose={async () => { if (state.setupComplete || await commit({ ...state, setupComplete: true })) setScreen(state.setupComplete ? 'today' : 'calendar'); }} onSave={async routine => {
           const success = await commit({ ...state, routine, setupComplete: true });
-          if (success) { const date = parseDate(routine.start); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('calendar'); }
+          if (success) { const date = parseDate(routine.start); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('today'); }
           return success;
-        }} /> : <CalendarScreen {...visible} today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
+        }} /> : screen === 'today' ? <TodayScreen today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
+        onCalendar={() => { const date = parseDate(today); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('calendar'); }}
+        onRoutine={() => setScreen('routine')} /> : <CalendarScreen {...visible} today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
         onRoutine={() => setScreen('routine')}
         onMonth={direction => setVisible(current => moveMonth(current.year, current.month, direction))}
         onToday={() => { const date = parseDate(today); setVisible({ year: date.getFullYear(), month: date.getMonth() }); }}
@@ -60,10 +57,10 @@ function CalendarApp() {
       <Text style={s.muted}>Solo en este dispositivo · Sin cuentas vinculadas</Text>
     </ScrollView>
     {!!state.profile && <View style={s.nav}>
-      {([{ id: 'calendar', label: 'Calendario' }, { id: 'routine', label: 'Rutina' }, { id: 'profile', label: 'Perfil' }] as const).map(tab => <Pressable key={tab.id}
-        accessibilityRole="tab" accessibilityState={{ selected: screen === tab.id }} onPress={() => setScreen(tab.id)}
+      {([{ id: 'today', label: 'Hoy y mañana' }, { id: 'calendar', label: 'Calendario' }, { id: 'routine', label: 'Rutina' }, { id: 'profile', label: 'Perfil' }] as const).map(tab => <Pressable key={tab.id}
+        accessibilityRole="tab" aria-selected={screen === tab.id} accessibilityState={{ selected: screen === tab.id }} onPress={() => setScreen(tab.id)}
         style={[s.navItem, screen === tab.id && { backgroundColor: colors.soft }]}>
-        <Text style={[s.body, { fontWeight: screen === tab.id ? '700' : '400' }]}>{tab.label}</Text>
+        <Text style={[s.body, { fontSize: 13, textAlign: 'center', fontWeight: screen === tab.id ? '700' : '400' }]}>{tab.label}</Text>
       </Pressable>)}
     </View>}
     {editing && <StayEditor key={editing} day={editing} schedule={state.schedule} routine={state.routine} saving={saving} storageError={error}

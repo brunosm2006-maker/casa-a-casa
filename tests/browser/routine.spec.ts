@@ -15,7 +15,10 @@ async function finish(page: Page) {
   await page.getByRole('button', { name: 'Revisar respuestas', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Revisa tus respuestas' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toHaveCount(0);
-  await page.getByRole('button', { name: 'Guardar rutina y ver calendario', exact: true }).click();
+  await page.getByRole('button', { name: 'Guardar rutina', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Hoy y mañana', exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
 }
 
@@ -54,6 +57,8 @@ test('perfil → cuestionario semanal → revisión → calendario, excepciones 
   await expect(page.getByRole('button', { name: '6 de noviembre de 2026, con padre', exact: true })).toBeVisible();
   await editDay(page, '2 de noviembre de 2026, con madre', 'Con padre');
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '¿Cómo os organizáis habitualmente?' })).toHaveCount(0);
   await page.getByRole('button', { name: 'Mes siguiente', exact: true }).click();
@@ -88,6 +93,8 @@ test('padre con un fin de semana de cada dos, sin asignar el resto y sin editar 
   await expect(page.getByRole('button', { name: '6 de noviembre de 2026, sin asignar', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '13 de noviembre de 2026, con padre', exact: true })).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
   await expect(page.getByRole('button', { name: '30 de octubre de 2026, con padre', exact: true })).toBeVisible();
 });
@@ -96,6 +103,7 @@ test('datos antiguos conservados, configuración posterior sin forzar nuevo inic
   await page.clock.install({ time: new Date('2026-10-29T12:00:00+01:00') });
   await page.addInitScript(() => localStorage.setItem('custodia.calendario.v1', JSON.stringify({ version: 1, profile: 'madre', schedule: { '2026-10-26': 'padre' } })));
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'El tiempo en cada casa' })).toBeVisible();
   await expect(page.getByRole('button', { name: '26 de octubre de 2026, con padre', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Configurar rutina', exact: true }).click();
@@ -107,6 +115,7 @@ test('datos antiguos conservados, configuración posterior sin forzar nuevo inic
   await finish(page);
   await expect(page.getByRole('button', { name: '26 de octubre de 2026, con padre', exact: true })).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByRole('button', { name: '26 de octubre de 2026, con padre', exact: true })).toBeVisible();
 });
 
@@ -121,5 +130,6 @@ test('una plantilla sin confirmar no se guarda y el primer uso incompleto vuelve
   await page.getByRole('button', { name: 'Ahora no · usar calendario manual' }).click();
   await expect(page.getByText('Tu calendario empieza aquí', { exact: true })).toBeVisible();
   await page.reload();
+  await page.getByRole('tab', { name: 'Calendario', exact: true }).click();
   await expect(page.getByText('Tu calendario empieza aquí', { exact: true })).toBeVisible();
 });

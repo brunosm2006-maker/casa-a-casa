@@ -30,9 +30,21 @@ El proyecto completo se ha trasladado al Bruno del Escritorio por petición expr
 
 Hay una primera versión funcional de Casa a Casa, con estructura y calendario, construida con Expo, React Native y TypeScript. Comparte código entre iPhone, Android y la vista web local.
 
-El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y ver el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
+El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y abrir Hoy y mañana con el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Hoy y mañana, Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
 
 Incluye las plantillas ampliadas y el reparto personalizado, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
+
+## Hoy y mañana
+
+Es la pantalla habitual al abrir un perfil ya configurado y después de confirmar una rutina. Muestra las estancias previstas para hoy y mañana y el próximo cambio de casa. Usa las mismas rutinas y excepciones del calendario, sin duplicar el cálculo ni inventar datos.
+
+Para hijos e hijas indica con qué progenitor está prevista la estancia. Para madres y padres indica si su hijo o hija tiene una estancia prevista con ese progenitor. No hay nombres reales ni cuentas vinculadas. Un día sin asignar permanece desconocido; no se atribuye al otro progenitor.
+
+Si el cambio está previsto para hoy se expresa así, sin hora. Si no existen dos días consecutivos con casas conocidas y distintas, se explica que aún no puede determinarse el próximo cambio. Si falta rutina se ofrece configurarla, conservando el uso de fechas manuales.
+
+La pantalla permite abrir el calendario y cambiar la rutina. La navegación mantiene accesibles Hoy y mañana, Calendario, Rutina y Perfil. Los cambios guardados y la selección de perfil se reflejan inmediatamente. Las fechas usan el día local del dispositivo y se actualizan a medianoche y al volver a la aplicación; en web también al recuperar foco o visibilidad. Hay una comprobación periódica de respaldo.
+
+Son previsiones del calendario, no ubicación en tiempo real. Se mantienen los días completos, sin horarios internos. Mochila y notificaciones reales siguen pendientes; no se muestran acciones que prometan esas funciones.
 
 ## Rutina automática y cambios puntuales
 
@@ -57,7 +69,7 @@ Antes de confirmar se muestran dos ciclos completos en tramos con fechas incluid
 
 Cada fecha asigna una casa para el día completo y su noche. No se separan horas, tardes o noches de un mismo día. En «Principalmente con uno», los días seleccionados de lunes a jueves se repiten semanalmente; la alternancia se aplica a los días seleccionados de viernes a domingo. El resto permanece sin asignar si no se define.
 
-«Guardar rutina y ver calendario» aplica el patrón. «Ahora no» conserva el uso manual. Las plantillas sin confirmar no se guardan. La rutina puede editarse después. Hay una sola regla activa, sin historial de varias reglas con distintas vigencias; cambiarla recalcula desde su inicio y conserva las excepciones.
+«Guardar rutina» aplica el patrón. «Ahora no» conserva el uso manual. Las plantillas sin confirmar no se guardan. La rutina puede editarse después. Hay una sola regla activa, sin historial de varias reglas con distintas vigencias; cambiarla recalcula desde su inicio y conserva las excepciones.
 
 Para festivos o vacaciones se toca una fecha o se usa «Añadir cambio puntual». «Dejar sin asignar» crea una excepción vacía. «Quitar cambio puntual · recuperar rutina» retira la excepción y vuelve al patrón. Las excepciones siempre prevalecen, incluso al cambiar de plantilla. El próximo cambio requiere dos días consecutivos con casas conocidas y distintas; la búsqueda cubre bloques largos y meses, sin limitarse a catorce días.
 
@@ -92,11 +104,11 @@ Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de 
 
 ## Verificación
 
-- `npm test`: treinta y seis pruebas de calendario, edición de fechas, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
+- `npm test`: cuarenta y una pruebas de calendario, fechas locales, edición de fechas, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: dieciséis pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
+- `npm run test:browser`: veinte pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
@@ -106,7 +118,7 @@ Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualme
 - En el registro se elegirá el perfil de hijo/hija o madre/padre. El perfil adaptará la vista y las opciones.
 - Habrá un calendario que indique los días con cada progenitor y permita recordar los cambios de casa.
 - La rutina automática y los cambios puntuales manuales para festivos o vacaciones están confirmados e implementados como parte prioritaria del calendario. El cuestionario inicial y su revisión son el recorrido principal; los rangos manuales se usan después para excepciones.
-- La pantalla «Hoy y mañana» mostrará con quién está hoy el hijo o la hija, con quién estará mañana y cuándo será el próximo cambio de casa.
+- La pantalla «Hoy y mañana» ya muestra con quién está hoy el hijo o la hija, con quién estará mañana y cuándo será el próximo cambio de casa.
 - El apartado «Mochila» permitirá preparar una lista personal para cada cambio de casa o estancia y marcar los elementos al prepararlos. La lista podrá reutilizarse y adaptarse a cada estancia. Podrá mostrarse desde «Hoy y mañana» cuando se acerque el cambio.
 - El recordatorio del cambio de casa avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio.
 - El recordatorio de preparar la mochila avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio de forma independiente.
@@ -134,6 +146,6 @@ Estas propuestas no forman parte de los requisitos confirmados.
 
 ## Alcance actual
 
-El trabajo autorizado comprende documentar e implementar la primera fase: estructura y calendario. Se ha elegido Expo y React Native como base compartida para esta versión. Las fases siguientes conservan el orden «Hoy y mañana» y después «Mochila»; sus pantallas completas siguen pendientes. Tampoco se han implementado avisos del sistema, cuentas familiares o sincronización. Los valores acordados de los recordatorios se conservan como requisitos futuros.
+El trabajo autorizado ya incluye estructura, calendario y la pantalla Hoy y mañana. Se ha elegido Expo y React Native como base compartida para esta versión. Hoy y mañana está implementada; Mochila es la siguiente fase pendiente. Tampoco se han implementado avisos del sistema, cuentas familiares o sincronización. Los valores acordados de los recordatorios se conservan como requisitos futuros.
 
 No se ha autorizado incorporar chat, ubicación o pagos; publicar la aplicación; crear un backend ni abrir cuentas en servicios.

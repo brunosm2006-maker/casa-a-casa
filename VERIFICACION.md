@@ -40,7 +40,7 @@ Cada fecha representa el día completo y su noche. No se separan horas, tardes o
 
 Las rutinas anteriores conservan su forma y los días desconocidos. Antes del primer guardado de bloques o meses se conserva el v2 anterior en custodia.calendario.v2.pre-plantillas, si existe y aún no hay copia; los guardados siguientes no la sustituyen. La versión antigua no entiende esos tipos nuevos: recuperar el estado anterior sería una acción explícita y no se deben mezclar versiones para editar.
 
-«Hoy y mañana» y «Mochila» conservan su orden como siguientes fases. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
+Hoy y mañana está implementada; Mochila sigue pendiente. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
 
 La auditoría de dependencias informó de ocho entradas: cinco de severidad baja y tres alta, propagadas desde `deepmerge` y `zod` a las herramientas de Expo. No se fuerza la sustitución incompatible propuesta por el gestor a Expo 51. Queda pendiente resolver y repetir la auditoría con las versiones corregidas compatibles antes de preparar una publicación. No hay servidor público ni servicios remotos de la aplicación.
 
@@ -64,3 +64,15 @@ Las pruebas de navegador usan Edge y arrancan un servidor en `127.0.0.1:8081`. E
 Un campo común añade barras al escribir, filtra los separadores pegados y limita a ocho dígitos. Se utiliza en inicio de rutina, viernes de referencia de ambos recorridos y fechas inicial/final de cambios puntuales. El cálculo de rutinas y las claves de guardado no cambian.
 
 Cinco pruebas nuevas cubren escritura secuencial, pegado con barras/guiones/puntos/espacios, límite de dígitos, retroceso y borrado junto a una barra, sustitución del mes con cursor intermedio, limpieza del campo y rechazo de fechas inexistentes. Una prueba nueva de navegador reproduce esas acciones y guarda un cambio puntual. Pasan 36 pruebas de lógica, las 16 de navegador y TypeScript. Se reconstruyó la vista web y se generaron correctamente los paquetes de iPhone y Android. La prueba física del teclado en iPhone y Android sigue pendiente.
+
+## Hoy y mañana: comprobaciones del 30 de octubre
+
+La pantalla está integrada como inicio habitual de perfiles configurados y tras confirmar una rutina. Conserva el uso manual inicial y las pestañas Calendario, Rutina y Perfil. Reutiliza el cálculo efectivo existente; no hay lógica de reparto duplicada ni cambios en las claves de guardado.
+
+Pasan 41 pruebas de lógica y 20 de navegador. Las cinco nuevas de lógica cubren fin de año, febrero bisiesto, día sin asignar, excepciones, cambios previstos para hoy, cambios lejanos y duración local hasta medianoche, incluida una jornada de cambio de hora. Las cuatro nuevas de navegador verifican los cuatro perfiles, medianoche de fin de año, vuelta a foco y visibilidad, excepción guardada, cambio de rutina y estados sin información. Las comprobaciones anteriores se mantienen, navegando al calendario desde el nuevo inicio.
+
+TypeScript, exportación web y paquetes JavaScript/Hermes de iPhone y Android correctos. Se revisaron visualmente capturas de Hoy y mañana a 320 y 1280 píxeles, sin desbordamiento horizontal. La barra muestra las cuatro pantallas y las tarjetas conservan el lenguaje visual existente.
+
+La fecha usa el reloj local del dispositivo. Se programa un refresco a la próxima medianoche, se refresca al activar la aplicación y en web al recuperar foco o visibilidad. Una comprobación cada treinta segundos sirve de respaldo. Los cambios internos guardados se reflejan de inmediato.
+
+Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. No se han añadido listas o acciones de Mochila, notificaciones reales, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
