@@ -1,6 +1,6 @@
 # Casa a Casa · verificación
 
-Actualizado el 30 de octubre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
+Actualizado el 2 de noviembre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
 
 ## Ubicación definitiva y comprobación del traslado del 29 de octubre
 
@@ -40,7 +40,7 @@ Cada fecha representa el día completo y su noche. No se separan horas, tardes o
 
 Las rutinas anteriores conservan su forma y los días desconocidos. Antes del primer guardado de bloques o meses se conserva el v2 anterior en custodia.calendario.v2.pre-plantillas, si existe y aún no hay copia; los guardados siguientes no la sustituyen. La versión antigua no entiende esos tipos nuevos: recuperar el estado anterior sería una acción explícita y no se deben mezclar versiones para editar.
 
-Hoy y mañana está implementada; Mochila sigue pendiente. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
+Hoy y mañana y Mochila están implementadas. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
 
 La auditoría de dependencias informó de ocho entradas: cinco de severidad baja y tres alta, propagadas desde `deepmerge` y `zod` a las herramientas de Expo. No se fuerza la sustitución incompatible propuesta por el gestor a Expo 51. Queda pendiente resolver y repetir la auditoría con las versiones corregidas compatibles antes de preparar una publicación. No hay servidor público ni servicios remotos de la aplicación.
 
@@ -75,4 +75,18 @@ TypeScript, exportación web y paquetes JavaScript/Hermes de iPhone y Android co
 
 La fecha usa el reloj local del dispositivo. Se programa un refresco a la próxima medianoche, se refresca al activar la aplicación y en web al recuperar foco o visibilidad. Una comprobación cada treinta segundos sirve de respaldo. Los cambios internos guardados se reflejan de inmediato.
 
-Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. No se han añadido listas o acciones de Mochila, notificaciones reales, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
+Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. En aquella entrega todavía no se habían añadido listas o acciones de Mochila. Siguen sin añadirse notificaciones reales, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
+
+## Mochila: comprobaciones del 2 de noviembre
+
+Pasan 48 pruebas de lógica y persistencia y 25 de navegador en Edge: 73 en total. TypeScript no presenta errores. Se conserva la cobertura anterior de calendario, rutinas, migración, fechas y Hoy y mañana.
+
+Las siete pruebas nuevas de lógica cubren destino efectivo y estancia larga sin duración inventada, fechas desconocidas y duplicadas, edición inmutable de objetos, nombres vacíos, marcas, borrado, copia independiente con todas las marcas pendientes, cambio de destino sin reasignación, proximidad al cambio al cruzar el año, lectura inicial vacía, conservación de las claves del calendario y fallos de lectura o escritura.
+
+Las cinco nuevas de navegador cubren crear, editar, marcar y desmarcar; progreso tras recargar; copia a otra fecha sin modificar el original; cancelación y confirmación de borrados; fecha sin destino; lista vacía; discrepancias tras cambiar el calendario; coincidencia exacta de la lista con el próximo cambio; errores de escritura conservando borradores y listas, y datos de Mochila dañados sin bloquear el calendario.
+
+Se revisaron capturas de Mochila a 320 y 1280 píxeles. Los nombres largos se ajustan y las cinco secciones siguen accesibles. La exportación web y los paquetes JavaScript/Hermes de iOS y Android se regeneran para esta entrega. Sigue pendiente probar en teléfonos físicos; estos paquetes no son instaladores.
+
+Las listas usan custodia.mochilas.v1, separada del calendario. No hay cambios en las claves anteriores, el perfil, el cuestionario ni el origen local. Todos los perfiles comparten las listas de este calendario local; los permisos familiares definitivos siguen pendientes. Se admiten 100 listas, 100 objetos por lista y 120 caracteres por objeto.
+
+El acceso de Hoy y mañana se muestra el día anterior y el propio día del próximo cambio. Es una acción dentro de la aplicación. Los dos recordatorios reales siguen pendientes, con momento configurable por separado, día anterior por defecto y sin hora elegida.

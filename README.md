@@ -30,7 +30,7 @@ El proyecto completo se ha trasladado al Bruno del Escritorio por petición expr
 
 Hay una primera versión funcional de Casa a Casa, con estructura y calendario, construida con Expo, React Native y TypeScript. Comparte código entre iPhone, Android y la vista web local.
 
-El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y abrir Hoy y mañana con el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Hoy y mañana, Calendario, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
+El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y abrir Hoy y mañana con el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Hoy y mañana, Calendario, Mochila, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
 
 Incluye las plantillas ampliadas y el reparto personalizado, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
 
@@ -42,9 +42,21 @@ Para hijos e hijas indica con qué progenitor está prevista la estancia. Para m
 
 Si el cambio está previsto para hoy se expresa así, sin hora. Si no existen dos días consecutivos con casas conocidas y distintas, se explica que aún no puede determinarse el próximo cambio. Si falta rutina se ofrece configurarla, conservando el uso de fechas manuales.
 
-La pantalla permite abrir el calendario y cambiar la rutina. La navegación mantiene accesibles Hoy y mañana, Calendario, Rutina y Perfil. Los cambios guardados y la selección de perfil se reflejan inmediatamente. Las fechas usan el día local del dispositivo y se actualizan a medianoche y al volver a la aplicación; en web también al recuperar foco o visibilidad. Hay una comprobación periódica de respaldo.
+La pantalla permite abrir el calendario y cambiar la rutina. La navegación mantiene accesibles Hoy y mañana, Calendario, Mochila, Rutina y Perfil. Los cambios guardados y la selección de perfil se reflejan inmediatamente. Las fechas usan el día local del dispositivo y se actualizan a medianoche y al volver a la aplicación; en web también al recuperar foco o visibilidad. Hay una comprobación periódica de respaldo.
 
-Son previsiones del calendario, no ubicación en tiempo real. Se mantienen los días completos, sin horarios internos. Mochila y notificaciones reales siguen pendientes; no se muestran acciones que prometan esas funciones.
+Son previsiones del calendario, no ubicación en tiempo real. Se mantienen los días completos, sin horarios internos. Mochila aparece junto al próximo cambio el día anterior y el mismo día. Permite crear o abrir la lista correspondiente y consultar su progreso. No hay notificaciones del sistema.
+
+## Mochila
+
+Permite crear listas para fechas actuales o futuras con destino conocido en el calendario efectivo, incluidas las excepciones. La lista guarda esa fecha y destino; no supone el inicio, el final ni la duración de una estancia. Si falta destino, ofrece completar la fecha en el calendario.
+
+Cada lista permite añadir, editar, marcar y eliminar objetos. Muestra preparados y pendientes; una lista vacía no figura como completada. La eliminación de objetos y de listas pide confirmación. Puedes empezar con una lista anterior: se copian los textos con identificadores nuevos y todos los objetos pendientes. El original conserva sus marcas.
+
+Hay una lista por fecha y destino. Si el calendario cambia después, se conserva la asociación original y se muestra una advertencia. Puedes crear otra lista para el destino nuevo sin perder la anterior. Hoy y mañana solo abre la que coincide con la fecha y destino del próximo cambio, el día anterior o el mismo día.
+
+El guardado usa una clave independiente, custodia.mochilas.v1. Si no existe, se empieza sin listas, sin modificar el calendario, el perfil ni el primer uso. Un error de lectura bloquea la edición de Mochila y permite seguir usando el calendario. Un fallo de guardado conserva los datos guardados y el texto que estabas editando. Se admiten hasta 100 listas, 100 objetos por lista y 120 caracteres por objeto.
+
+Todos los perfiles usan las mismas listas locales de este calendario. Esto no decide los permisos familiares definitivos. No hay avisos del sistema, cuentas, sincronización ni base de datos remota.
 
 ## Rutina automática y cambios puntuales
 
@@ -104,11 +116,11 @@ Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de 
 
 ## Verificación
 
-- `npm test`: cuarenta y una pruebas de calendario, fechas locales, edición de fechas, rutinas y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
+- `npm test`: 48 pruebas de calendario, fechas locales, edición de fechas, rutinas, Mochila y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: veinte pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores y anchuras de 320, 768 y 1440 píxeles.
+- `npm run test:browser`: 25 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
@@ -119,7 +131,7 @@ Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualme
 - Habrá un calendario que indique los días con cada progenitor y permita recordar los cambios de casa.
 - La rutina automática y los cambios puntuales manuales para festivos o vacaciones están confirmados e implementados como parte prioritaria del calendario. El cuestionario inicial y su revisión son el recorrido principal; los rangos manuales se usan después para excepciones.
 - La pantalla «Hoy y mañana» ya muestra con quién está hoy el hijo o la hija, con quién estará mañana y cuándo será el próximo cambio de casa.
-- El apartado «Mochila» permitirá preparar una lista personal para cada cambio de casa o estancia y marcar los elementos al prepararlos. La lista podrá reutilizarse y adaptarse a cada estancia. Podrá mostrarse desde «Hoy y mañana» cuando se acerque el cambio.
+- El apartado «Mochila» ya permite preparar listas por fecha y destino, marcar objetos y copiar listas anteriores. Aparece desde «Hoy y mañana» el día anterior y el mismo día del próximo cambio.
 - El recordatorio del cambio de casa avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio.
 - El recordatorio de preparar la mochila avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio de forma independiente.
 - Ambos recordatorios se aplicarán tanto al ir con el padre como al ir con la madre. No se ha elegido una hora predeterminada.
@@ -146,6 +158,6 @@ Estas propuestas no forman parte de los requisitos confirmados.
 
 ## Alcance actual
 
-El trabajo autorizado ya incluye estructura, calendario y la pantalla Hoy y mañana. Se ha elegido Expo y React Native como base compartida para esta versión. Hoy y mañana está implementada; Mochila es la siguiente fase pendiente. Tampoco se han implementado avisos del sistema, cuentas familiares o sincronización. Los valores acordados de los recordatorios se conservan como requisitos futuros.
+El trabajo autorizado incluye estructura, calendario, Hoy y mañana y Mochila, ya implementados. Se ha elegido Expo y React Native como base compartida para esta versión. Tampoco se han implementado avisos del sistema, cuentas familiares o sincronización. Los valores acordados de los recordatorios se conservan como requisitos futuros.
 
 No se ha autorizado incorporar chat, ubicación o pagos; publicar la aplicación; crear un backend ni abrir cuentas en servicios.

@@ -22,7 +22,7 @@ La pantalla debe explicar el primer inicio vacío, los días sin asignar, los er
 
 El perfil hijo/hija consulta con quién está hoy. Los perfiles madre y padre consultan si su hijo o hija está con ellos y cuántos días tienen asignados en el mes. Todos pueden editar localmente de forma provisional; esto no define permisos familiares reales.
 
-Hoy y mañana está implementada. Mochila y las notificaciones del sistema siguen pendientes.
+Hoy y mañana y Mochila están implementadas. Las notificaciones del sistema siguen pendientes.
 
 Base técnica: Expo SDK 58, React Native y TypeScript, con AsyncStorage para persistir la selección de perfil y las fechas en el dispositivo. La vista web usa el mismo código. Fuentes oficiales consultadas:
 
@@ -34,6 +34,15 @@ Base técnica: Expo SDK 58, React Native y TypeScript, con AsyncStorage para per
 
 Se reutilizan la tipografía, el fondo y los colores de casa existentes. Cada tarjeta tiene fecha legible y texto además del color: Hoy, Mañana y Próximo cambio de casa. La vista distingue previsión, día desconocido y ausencia de rutina. El lenguaje cambia por perfil sin inventar identidades.
 
-Los accesos a calendario y rutina son acciones reales. La barra mantiene las cuatro pantallas accesibles y adapta el texto a pantallas estrechas. No hay acciones de Mochila ni ubicación real.
+Los accesos a calendario y rutina son acciones reales. La barra mantiene las cinco pantallas accesibles y adapta el texto a pantallas estrechas. El acceso a Mochila aparece cerca del próximo cambio el día anterior y el mismo día. No hay ubicación real.
 
 Los datos se obtienen del cálculo efectivo existente. Un único reloj local compartido refresca la fecha a medianoche, al activar la aplicación y al recuperar foco o visibilidad en web. Una comprobación cada treinta segundos sirve de respaldo ante cambios de reloj. Se conservan la revisión antes de guardar y las barras automáticas de fechas.
+## Pantalla Mochila
+
+Se mantienen fondo, colores, tipografía y tarjetas existentes. La navegación incluye Hoy y mañana, Calendario, Mochila, Rutina y Perfil. Los nombres largos de objetos se ajustan en varias líneas. El progreso y las marcas se expresan con texto y controles accesibles, además del color.
+
+La creación solicita fecha y consulta el destino efectivo. Si falta, enlaza al calendario. No calcula ni presenta una duración que no esté confirmada. Una lista vacía no se presenta como terminada.
+
+Copiar genera objetos nuevos y pendientes. Editar conserva el borrador hasta guardar correctamente. Eliminar objetos o listas requiere una confirmación con opción de conservarlos. Los errores de guardado se muestran sin perder los datos guardados ni el texto en edición.
+
+Una discrepancia con el calendario se señala en la lista y en su tarjeta, sin reasignar ni borrar objetos. El acceso desde Hoy y mañana usa coincidencia de fecha y destino. Los permisos familiares y los avisos reales siguen pendientes.

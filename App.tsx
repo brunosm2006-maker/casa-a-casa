@@ -1,3 +1,5 @@
+import { BackpackScreen, type BagTarget } from './src/BackpackScreen';
+import { useBackpacks } from './src/useBackpacks';
 import { TodayScreen } from './src/TodayScreen';
 import { useLocalDate } from './src/useLocalDate';
 import React, { useEffect, useRef, useState } from 'react';
@@ -16,8 +18,10 @@ import { colors, s } from './src/theme';
 function CalendarApp() {
   const { state, loading, saving, error, loadFailed, reload, commit } = useLocalState();
   const today = useLocalDate();
+  const backpacks = useBackpacks();
+  const [bagTarget, setBagTarget] = useState<BagTarget | null>(null);
   const [visible, setVisible] = useState(() => ({ year: new Date().getFullYear(), month: new Date().getMonth() }));
-  const [screen, setScreen] = useState<'today' | 'calendar' | 'profile' | 'routine'>('today');
+  const [screen, setScreen] = useState<'today' | 'calendar' | 'profile' | 'routine' | 'bags'>('today');
   const [editing, setEditing] = useState<string | null>(null);
   const scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const scrollTop = () => scroll.current?.scrollTo({ y: 0, animated: false });
@@ -47,7 +51,8 @@ function CalendarApp() {
           const success = await commit({ ...state, routine, setupComplete: true });
           if (success) { const date = parseDate(routine.start); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('today'); }
           return success;
-        }} /> : screen === 'today' ? <TodayScreen today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
+        }} /> : screen === 'bags' ? <BackpackScreen key={bagTarget?.listId ?? bagTarget?.date ?? 'all'} store={backpacks} onStep={scrollTop} target={bagTarget} exceptions={state.schedule} routine={state.routine} profile={state.profile}
+        onCalendar={date => { if (date) { const value = parseDate(date); setVisible({ year: value.getFullYear(), month: value.getMonth() }); setBagTarget({ date }); } setScreen('calendar'); }} /> : screen === 'today' ? <TodayScreen backpacks={backpacks} onBackpack={target => { setBagTarget(target); setScreen('bags'); }} today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
         onCalendar={() => { const date = parseDate(today); setVisible({ year: date.getFullYear(), month: date.getMonth() }); setScreen('calendar'); }}
         onRoutine={() => setScreen('routine')} /> : <CalendarScreen {...visible} today={today} exceptions={state.schedule} routine={state.routine} profile={state.profile}
         onRoutine={() => setScreen('routine')}
@@ -56,11 +61,11 @@ function CalendarApp() {
         onEdit={setEditing} />}
       <Text style={s.muted}>Solo en este dispositivo · Sin cuentas vinculadas</Text>
     </ScrollView>
-    {!!state.profile && <View style={s.nav}>
-      {([{ id: 'today', label: 'Hoy y mañana' }, { id: 'calendar', label: 'Calendario' }, { id: 'routine', label: 'Rutina' }, { id: 'profile', label: 'Perfil' }] as const).map(tab => <Pressable key={tab.id}
-        accessibilityRole="tab" aria-selected={screen === tab.id} accessibilityState={{ selected: screen === tab.id }} onPress={() => setScreen(tab.id)}
+    {!!state.profile && <View style={[s.nav, { gap: 4, padding: 4 }]}>
+      {([{ id: 'today', label: 'Hoy y mañana' }, { id: 'calendar', label: 'Calendario' }, { id: 'bags', label: 'Mochila' }, { id: 'routine', label: 'Rutina' }, { id: 'profile', label: 'Perfil' }] as const).map(tab => <Pressable key={tab.id}
+        accessibilityRole="tab" aria-selected={screen === tab.id} accessibilityState={{ selected: screen === tab.id }} onPress={() => { if (tab.id === 'bags') setBagTarget(null); setScreen(tab.id); }}
         style={[s.navItem, screen === tab.id && { backgroundColor: colors.soft }]}>
-        <Text style={[s.body, { fontSize: 13, textAlign: 'center', fontWeight: screen === tab.id ? '700' : '400' }]}>{tab.label}</Text>
+        <Text style={[s.body, { fontSize: 12, textAlign: 'center', fontWeight: screen === tab.id ? '700' : '400' }]}>{tab.label}</Text>
       </Pressable>)}
     </View>}
     {editing && <StayEditor key={editing} day={editing} schedule={state.schedule} routine={state.routine} saving={saving} storageError={error}

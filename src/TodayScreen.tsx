@@ -1,3 +1,6 @@
+import { TodayBagPanel } from './TodayBagPanel';
+import { type useBackpacks } from './useBackpacks';
+import { type BagTarget } from './BackpackScreen';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { displayDate, type Home, type Schedule } from './calendar';
@@ -7,9 +10,9 @@ import { dailyOverview } from './dailyOverview';
 import { Button } from './ui';
 import { colors, s } from './theme';
 
-export function TodayScreen({ today, exceptions, routine, profile, onCalendar, onRoutine }: {
+export function TodayScreen({ today, exceptions, routine, profile, backpacks, onBackpack, onCalendar, onRoutine }: {
   today: string; exceptions: Schedule; routine: Routine | null; profile: Profile;
-  onCalendar: () => void; onRoutine: () => void;
+  backpacks: ReturnType<typeof useBackpacks>; onBackpack: (target: BagTarget) => void; onCalendar: () => void; onRoutine: () => void;
 }) {
   const overview = dailyOverview(today, exceptions, routine);
   const child = profile === 'hijo' || profile === 'hija';
@@ -44,6 +47,7 @@ export function TodayScreen({ today, exceptions, routine, profile, onCalendar, o
         'Hace falta conocer dos días seguidos con casas distintas. Un día sin asignar no se interpreta como una estancia con el otro progenitor.'}</Text>
       {change && <Text style={s.muted}>{change.date === today ? displayDate(today) + ' · ' : ''}No hay una hora de cambio definida.</Text>}
     </View>
+    <TodayBagPanel today={today} change={change} store={backpacks} profile={profile} onOpen={onBackpack} />
     {!routine && <View style={s.card}>
       <Text accessibilityRole="header" style={s.heading}>Sin rutina configurada</Text>
       <Text style={s.body}>Puedes usar las fechas que añadas manualmente o configurar una rutina para completar el calendario.</Text>

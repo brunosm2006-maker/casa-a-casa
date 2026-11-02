@@ -1,6 +1,6 @@
 # Casa a Casa · borrador funcional
 
-Actualizado el 30 de octubre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con la primera versión funcional de la estructura y el calendario. Las funciones de fases posteriores se describen como previstas.
+Actualizado el 2 de noviembre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con estructura, calendario, Hoy y mañana y Mochila funcionales. Los recordatorios se describen como requisitos pendientes.
 
 Todos los archivos del proyecto se conservan en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. Esta es la única carpeta principal y destino de todo trabajo futuro; sustituye las ubicaciones anteriores de Documentos.
 
@@ -12,11 +12,11 @@ La idea nace de la experiencia personal de su creador al adaptarse a la custodia
 
 ## Orden de trabajo confirmado
 
-1. Primero, la estructura y el calendario, incluida como prioridad confirmada la rutina automática y los cambios puntuales. La navegación tiene Hoy y mañana, Calendario, Rutina y Perfil.
+1. Primero, la estructura y el calendario, incluida como prioridad confirmada la rutina automática y los cambios puntuales. La navegación tiene Hoy y mañana, Calendario, Mochila, Rutina y Perfil.
 2. Después, «Hoy y mañana», ya implementada.
-3. Por último, «Mochila».
+3. Por último, «Mochila», ya implementada.
 
-Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El usuario ya ha autorizado empezar la implementación de la primera fase. Se ha usado Expo y React Native para compartir la base entre iPhone, Android y la vista web local. La segunda fase, Hoy y mañana, ya está implementada. La publicación sigue pendiente de autorización.
+Este orden sustituye la preferencia previa de empezar por «Hoy y mañana». El usuario ya ha autorizado empezar la implementación de la primera fase. Se ha usado Expo y React Native para compartir la base entre iPhone, Android y la vista web local. Hoy y mañana y Mochila ya están implementadas. La publicación sigue pendiente de autorización.
 
 ## Qué se puede probar ahora
 
@@ -71,16 +71,16 @@ Las fechas y casas proceden del calendario efectivo, incluidas las excepciones. 
 
 Ofrece acceso al calendario y a configurar o cambiar la rutina, con el perfil siempre accesible en la navegación. Se actualiza al guardar cambios, cambiar de perfil, pasar la medianoche y volver a la aplicación. Usa fechas locales del dispositivo.
 
-Las listas de Mochila podrán aparecer aquí en una fase futura. Todavía no hay botón ni listas de Mochila ni notificaciones del sistema.
+El día anterior y el mismo día del próximo cambio ofrece crear o abrir la Mochila de esa fecha y destino, con su progreso. No programa notificaciones del sistema.
 ### Mochila
 
-Pendiente de la tercera fase.
+Ya permite preparar listas para fechas con destino conocido, incluidas estancias futuras. Usa el calendario y sus excepciones. Cada lista conserva fecha y destino sin inventar la duración de la estancia.
 
-Cada cambio de casa o estancia podrá tener una lista personal de lo que la persona quiere llevar. Los elementos se podrán marcar a medida que se preparen.
+Se pueden añadir, editar, marcar y eliminar objetos, consultar preparados y pendientes, y borrar listas con confirmación. Copiar una lista anterior crea objetos independientes y pendientes; conserva la lista original. No se duplica una misma fecha y destino.
 
-La lista podrá reutilizarse y adaptarse a cada estancia. Así se podrá partir de una lista anterior y añadir o quitar cosas según los días que se vayan a pasar en la otra casa.
+Si cambia el calendario, se avisa y se conserva la lista con su destino original. Puede crearse otra para el destino nuevo. La información se guarda localmente en una clave separada, sin modificar el calendario anterior.
 
-Queda por concretar quién podrá ver y modificar las listas y cómo se gestionarán desde cada perfil.
+Todos los perfiles locales pueden usar estas listas. Quién podrá ver y modificar las listas en cuentas familiares reales sigue pendiente.
 
 ### Recordatorios
 
@@ -94,13 +94,13 @@ Todavía no se ha elegido una hora predeterminada para los avisos.
 
 ## Ejemplo de uso
 
-Este ejemplo describe el funcionamiento previsto cuando estén disponibles todas las fases. Retoma la experiencia que contó el usuario: en verano pasaba quince días con cada progenitor. Las fechas y los avisos siguientes son ilustrativos y no están cargados en la aplicación.
+Este ejemplo usa las listas disponibles y distingue los recordatorios futuros. Retoma la experiencia que contó el usuario: en verano pasaba quince días con cada progenitor. Las fechas y los avisos siguientes son ilustrativos y no están cargados en la aplicación.
 
 El día 15 empieza una estancia con su padre. El hijo o la hija prepara una lista de «Mochila» para esa estancia. Puede reutilizar una lista anterior y adaptarla a lo que quiera llevar esta vez.
 
 El día 14, «Hoy y mañana» muestra que mañana empieza la estancia con su padre y permite consultar la mochila correspondiente. Al preparar las cosas, va marcando los elementos de la lista.
 
-Con la configuración predeterminada, el día 14 recibirá el recordatorio del cambio de casa y el de preparar la mochila. La hora queda pendiente de definir. Si cambia el momento de uno de los recordatorios, el otro conservará su propia configuración.
+Cuando se implementen los avisos, con la configuración predeterminada el día 14 recibirá el recordatorio del cambio de casa y el de preparar la mochila. Ahora no se envían. La hora queda pendiente de definir. Si cambia el momento de uno de los recordatorios, el otro conservará su propia configuración.
 
 El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su madre.
 
