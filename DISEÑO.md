@@ -22,7 +22,7 @@ La pantalla debe explicar el primer inicio vacío, los días sin asignar, los er
 
 El perfil hijo/hija consulta con quién está hoy. Los perfiles madre y padre consultan si su hijo o hija está con ellos y cuántos días tienen asignados en el mes. Todos pueden editar localmente de forma provisional; esto no define permisos familiares reales.
 
-Hoy y mañana y Mochila están implementadas. Las notificaciones del sistema siguen pendientes.
+Hoy y mañana y Mochila están implementadas. Los recordatorios locales se ajustan en Perfil.
 
 Base técnica: Expo SDK 58, React Native y TypeScript, con AsyncStorage para persistir la selección de perfil y las fechas en el dispositivo. La vista web usa el mismo código. Fuentes oficiales consultadas:
 
@@ -45,4 +45,4 @@ La creación solicita fecha y consulta el destino efectivo. Si falta, enlaza al 
 
 Copiar genera objetos nuevos y pendientes. Editar conserva el borrador hasta guardar correctamente. Eliminar objetos o listas requiere una confirmación con opción de conservarlos. Los errores de guardado se muestran sin perder los datos guardados ni el texto en edición.
 
-Una discrepancia con el calendario se señala en la lista y en su tarjeta, sin reasignar ni borrar objetos. El acceso desde Hoy y mañana usa coincidencia de fecha y destino. Los permisos familiares y los avisos reales siguen pendientes.
+Una discrepancia con el calendario se señala en la lista y en su tarjeta, sin reasignar ni borrar objetos. El acceso desde Hoy y mañana usa coincidencia de fecha y destino. Los permisos familiares siguen pendientes.

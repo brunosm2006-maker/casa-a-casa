@@ -26,6 +26,6 @@ export function TodayBagPanel({ today, change, store, profile, onOpen }: {
       {previousDestination && <Text style={s.muted}>Hay una lista para esta fecha con otro destino. Se conserva en Mochila y no se ha reasignado.</Text>}
       <Button label={bag ? 'Ver mochila' : 'Preparar mochila'} onPress={() => onOpen(bag ? { listId: bag.id } : { date: change.date })} />
     </>}
-    <Text style={s.muted}>Este acceso aparece el día anterior y el propio día del cambio. Los avisos del sistema siguen pendientes.</Text>
+    <Text style={s.muted}>Este acceso aparece el día anterior y el propio día del cambio. Los recordatorios se ajustan desde Perfil.</Text>
   </View>;
 }

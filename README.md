@@ -44,7 +44,7 @@ Si el cambio está previsto para hoy se expresa así, sin hora. Si no existen do
 
 La pantalla permite abrir el calendario y cambiar la rutina. La navegación mantiene accesibles Hoy y mañana, Calendario, Mochila, Rutina y Perfil. Los cambios guardados y la selección de perfil se reflejan inmediatamente. Las fechas usan el día local del dispositivo y se actualizan a medianoche y al volver a la aplicación; en web también al recuperar foco o visibilidad. Hay una comprobación periódica de respaldo.
 
-Son previsiones del calendario, no ubicación en tiempo real. Se mantienen los días completos, sin horarios internos. Mochila aparece junto al próximo cambio el día anterior y el mismo día. Permite crear o abrir la lista correspondiente y consultar su progreso. No hay notificaciones del sistema.
+Son previsiones del calendario, no ubicación en tiempo real. Se mantienen los días completos, sin horarios internos. Mochila aparece junto al próximo cambio el día anterior y el mismo día. Permite crear o abrir la lista correspondiente y consultar su progreso.
 
 ## Mochila
 
@@ -56,7 +56,15 @@ Hay una lista por fecha y destino. Si el calendario cambia después, se conserva
 
 El guardado usa una clave independiente, custodia.mochilas.v1. Si no existe, se empieza sin listas, sin modificar el calendario, el perfil ni el primer uso. Un error de lectura bloquea la edición de Mochila y permite seguir usando el calendario. Un fallo de guardado conserva los datos guardados y el texto que estabas editando. Se admiten hasta 100 listas, 100 objetos por lista y 120 caracteres por objeto.
 
-Todos los perfiles usan las mismas listas locales de este calendario. Esto no decide los permisos familiares definitivos. No hay avisos del sistema, cuentas, sincronización ni base de datos remota.
+Todos los perfiles usan las mismas listas locales de este calendario. Esto no decide los permisos familiares definitivos. Las listas se guardan en este dispositivo.
+
+## Recordatorios
+
+En Perfil puedes activar por separado el aviso de cambio de casa y el de preparar la mochila. Ambos empiezan desactivados, con el horario inicial propuesto de un día antes a las 18:00 en la zona del dispositivo. Puedes elegir de 0 a 7 días antes y otra hora. La app móvil pide permiso al pulsar «Permitir notificaciones». En web se guardan los ajustes para probarlos en ese navegador.
+
+La app móvil revisa los cambios de hoy y los 29 días siguientes. Recalcula al abrir o volver a la app y cuando se guardan ajustes, cambios de calendario o listas. Solo programa horas futuras. El aviso de mochila requiere una lista sin completar para la misma fecha y destino del cambio. Si el cambio deja de aplicar, se completa o elimina la lista, o se desactiva un aviso, se retiran los avisos correspondientes. Abre la app periódicamente para renovar la ventana.
+
+Los mensajes del sistema son genéricos. Android puede aplazar el aviso según los ajustes del dispositivo. Las preferencias se guardan en una clave local separada. La implementación usa Expo Notifications con el SDK 58. La entrega se debe comprobar en teléfonos físicos. [Documentación de Expo Notifications](https://docs.expo.dev/versions/v58.0.0/sdk/notifications/).
 
 ## Rutina automática y cambios puntuales
 
@@ -116,11 +124,11 @@ Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de 
 
 ## Verificación
 
-- `npm test`: 48 pruebas de calendario, fechas locales, edición de fechas, rutinas, Mochila y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
+- `npm test`: 53 pruebas de calendario, fechas locales, edición de fechas, rutinas, Mochila y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: 25 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
+- `npm run test:browser`: 26 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
@@ -134,7 +142,7 @@ Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualme
 - El apartado «Mochila» ya permite preparar listas por fecha y destino, marcar objetos y copiar listas anteriores. Aparece desde «Hoy y mañana» el día anterior y el mismo día del próximo cambio.
 - El recordatorio del cambio de casa avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio.
 - El recordatorio de preparar la mochila avisará el día anterior por defecto. Cada usuario podrá elegir otro momento para este recordatorio de forma independiente.
-- Ambos recordatorios se aplicarán tanto al ir con el padre como al ir con la madre. No se ha elegido una hora predeterminada.
+- Ambos recordatorios se aplicarán tanto al ir con el padre como al ir con la madre. La hora inicial propuesta es 18:00 local y se puede editar.
 
 ## Propuesta de vistas por perfil
 
@@ -145,7 +153,6 @@ El borrador propone un calendario familiar con vistas adaptadas: el hijo o la hi
 - ¿Cómo evolucionarán las pantallas y la navegación básica a partir de la propuesta inicial Calendario/Perfil?
 - ¿Quién podrá crear y editar las fechas del calendario?
 - ¿Cómo se vincularán las cuentas familiares?
-- ¿Qué hora se ofrecerá por defecto para cada aviso?
 - ¿Quién podrá ver y modificar cada lista personal de «Mochila»?
 - ¿Cómo se presentarán y gestionarán las listas y los avisos en cada perfil?
 
@@ -158,6 +165,6 @@ Estas propuestas no forman parte de los requisitos confirmados.
 
 ## Alcance actual
 
-El trabajo autorizado incluye estructura, calendario, Hoy y mañana y Mochila, ya implementados. Se ha elegido Expo y React Native como base compartida para esta versión. Tampoco se han implementado avisos del sistema, cuentas familiares o sincronización. Los valores acordados de los recordatorios se conservan como requisitos futuros.
+El trabajo autorizado incluye estructura, calendario, Hoy y mañana y Mochila, ya implementados. Se ha elegido Expo y React Native como base compartida para esta versión. El alcance incluye avisos locales en la app móvil. Las cuentas familiares y la sincronización siguen pendientes.
 
 No se ha autorizado incorporar chat, ubicación o pagos; publicar la aplicación; crear un backend ni abrir cuentas en servicios.

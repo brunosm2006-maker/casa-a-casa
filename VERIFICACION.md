@@ -1,6 +1,6 @@
 # Casa a Casa · verificación
 
-Actualizado el 2 de noviembre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
+Actualizado el 4 de noviembre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
 
 ## Ubicación definitiva y comprobación del traslado del 29 de octubre
 
@@ -40,7 +40,7 @@ Cada fecha representa el día completo y su noche. No se separan horas, tardes o
 
 Las rutinas anteriores conservan su forma y los días desconocidos. Antes del primer guardado de bloques o meses se conserva el v2 anterior en custodia.calendario.v2.pre-plantillas, si existe y aún no hay copia; los guardados siguientes no la sustituyen. La versión antigua no entiende esos tipos nuevos: recuperar el estado anterior sería una acción explícita y no se deben mezclar versiones para editar.
 
-Hoy y mañana y Mochila están implementadas. No hay notificaciones del sistema. Se mantienen documentados los dos avisos independientes, ambos el día anterior por defecto y sin hora predeterminada elegida.
+Los recordatorios locales se prueban desde Perfil. La entrega en teléfonos físicos sigue pendiente.
 
 La auditoría de dependencias informó de ocho entradas: cinco de severidad baja y tres alta, propagadas desde `deepmerge` y `zod` a las herramientas de Expo. No se fuerza la sustitución incompatible propuesta por el gestor a Expo 51. Queda pendiente resolver y repetir la auditoría con las versiones corregidas compatibles antes de preparar una publicación. No hay servidor público ni servicios remotos de la aplicación.
 
@@ -75,7 +75,7 @@ TypeScript, exportación web y paquetes JavaScript/Hermes de iPhone y Android co
 
 La fecha usa el reloj local del dispositivo. Se programa un refresco a la próxima medianoche, se refresca al activar la aplicación y en web al recuperar foco o visibilidad. Una comprobación cada treinta segundos sirve de respaldo. Los cambios internos guardados se reflejan de inmediato.
 
-Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. En aquella entrega todavía no se habían añadido listas o acciones de Mochila. Siguen sin añadirse notificaciones reales, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
+Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. En aquella entrega todavía no se habían añadido listas o acciones de Mochila. En aquella entrega aún no se habían añadido notificaciones, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
 
 ## Mochila: comprobaciones del 2 de noviembre
 
@@ -89,4 +89,11 @@ Se revisaron capturas de Mochila a 320 y 1280 píxeles. Los nombres largos se aj
 
 Las listas usan custodia.mochilas.v1, separada del calendario. No hay cambios en las claves anteriores, el perfil, el cuestionario ni el origen local. Todos los perfiles comparten las listas de este calendario local; los permisos familiares definitivos siguen pendientes. Se admiten 100 listas, 100 objetos por lista y 120 caracteres por objeto.
 
-El acceso de Hoy y mañana se muestra el día anterior y el propio día del próximo cambio. Es una acción dentro de la aplicación. Los dos recordatorios reales siguen pendientes, con momento configurable por separado, día anterior por defecto y sin hora elegida.
+El acceso de Hoy y mañana se muestra el día anterior y el propio día del próximo cambio. Es una acción dentro de la aplicación. En la entrega de Mochila aún estaban pendientes los dos recordatorios del sistema.
+## Recordatorios locales del 4 de noviembre
+
+Pasaron 53 pruebas de lógica y persistencia y 26 pruebas de navegador en Edge. Los casos nuevos comprueban horas locales durante el cambio de hora, excepciones, coincidencia y estado de la mochila, exclusión de fechas pasadas, límite de 30 días, cancelación y reintento de avisos, y guardado independiente de cada preferencia. En el navegador se probó también que no se accede al permiso de notificaciones.
+
+Pasaron TypeScript y la exportación web, iOS y Android. La configuración de Expo reconoce el plugin de notificaciones para SDK 58. La comprobación de versiones acepta expo-notifications 58.1.8 y señala tres dependencias preexistentes con actualización recomendada, Expo, Metro Runtime y Safe Area Context. El informe de npm al instalar mostró diez entradas de auditoría. Estas comprobaciones no se trataron como parte de la fase de recordatorios.
+
+Pendiente en teléfonos físicos comprobar el diálogo del sistema, rechazo y recuperación de permisos, y entrega con la app en segundo plano, incluidos los retrasos de Android. El servidor local mantiene el origen habitual.

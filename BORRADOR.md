@@ -1,6 +1,6 @@
 # Casa a Casa · borrador funcional
 
-Actualizado el 2 de noviembre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con estructura, calendario, Hoy y mañana y Mochila funcionales. Los recordatorios se describen como requisitos pendientes.
+Actualizado el 4 de noviembre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con estructura, calendario, Hoy y mañana y Mochila funcionales. Los recordatorios locales se configuran desde Perfil.
 
 Todos los archivos del proyecto se conservan en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. Esta es la única carpeta principal y destino de todo trabajo futuro; sustituye las ubicaciones anteriores de Documentos.
 
@@ -71,7 +71,7 @@ Las fechas y casas proceden del calendario efectivo, incluidas las excepciones. 
 
 Ofrece acceso al calendario y a configurar o cambiar la rutina, con el perfil siempre accesible en la navegación. Se actualiza al guardar cambios, cambiar de perfil, pasar la medianoche y volver a la aplicación. Usa fechas locales del dispositivo.
 
-El día anterior y el mismo día del próximo cambio ofrece crear o abrir la Mochila de esa fecha y destino, con su progreso. No programa notificaciones del sistema.
+El día anterior y el mismo día del próximo cambio ofrece crear o abrir la Mochila de esa fecha y destino, con su progreso.
 ### Mochila
 
 Ya permite preparar listas para fechas con destino conocido, incluidas estancias futuras. Usa el calendario y sus excepciones. Cada lista conserva fecha y destino sin inventar la duración de la estancia.
@@ -84,23 +84,19 @@ Todos los perfiles locales pueden usar estas listas. Quién podrá ver y modific
 
 ### Recordatorios
 
-Pendientes de implementar; esta versión no programa ni envía avisos del sistema.
+En Perfil se pueden activar o desactivar por separado los avisos de cambio de casa y de mochila. Ambos parten del día anterior a las 18:00 local. Se puede cambiar la hora y elegir de cero a siete días de antelación.
 
-Habrá un recordatorio para el cambio de casa y otro para preparar la mochila.
-
-Los dos avisarán el día anterior por defecto. Cada usuario podrá elegir otro momento para cada uno de forma independiente. Este comportamiento se aplicará tanto al ir con el padre como al ir con la madre.
-
-Todavía no se ha elegido una hora predeterminada para los avisos.
+La app de iOS o Android programa los avisos con permiso del sistema. El de mochila requiere una lista sin completar que coincida con la fecha y destino del cambio. El navegador permite guardar las preferencias. La entrega real queda pendiente de prueba en teléfonos.
 
 ## Ejemplo de uso
 
-Este ejemplo usa las listas disponibles y distingue los recordatorios futuros. Retoma la experiencia que contó el usuario: en verano pasaba quince días con cada progenitor. Las fechas y los avisos siguientes son ilustrativos y no están cargados en la aplicación.
+Retoma la experiencia que contó el usuario: en verano pasaba quince días con cada progenitor. Las fechas y los avisos siguientes son ilustrativos y no están cargados en la aplicación.
 
 El día 15 empieza una estancia con su padre. El hijo o la hija prepara una lista de «Mochila» para esa estancia. Puede reutilizar una lista anterior y adaptarla a lo que quiera llevar esta vez.
 
 El día 14, «Hoy y mañana» muestra que mañana empieza la estancia con su padre y permite consultar la mochila correspondiente. Al preparar las cosas, va marcando los elementos de la lista.
 
-Cuando se implementen los avisos, con la configuración predeterminada el día 14 recibirá el recordatorio del cambio de casa y el de preparar la mochila. Ahora no se envían. La hora queda pendiente de definir. Si cambia el momento de uno de los recordatorios, el otro conservará su propia configuración.
+Si activa ambos avisos en el teléfono, mantiene el horario inicial y la lista sigue por preparar, se programan para el día 14 a las 18:00. Cada uno conserva su propio horario.
 
 El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su madre.
 
@@ -109,7 +105,6 @@ El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su mad
 - Cómo evolucionarán las pantallas y la navegación básica desde la propuesta inicial Calendario/Perfil.
 - Quién crea y edita las fechas del calendario.
 - Cómo se vinculan las cuentas familiares.
-- Qué hora se ofrece por defecto para cada aviso.
 - Quién puede ver y modificar las listas personales y cómo se presentan las listas y los avisos en cada perfil.
 
 ## Ideas para valorar más adelante

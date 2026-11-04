@@ -1,5 +1,7 @@
 import { BackpackScreen, type BagTarget } from './src/BackpackScreen';
 import { useBackpacks } from './src/useBackpacks';
+import { useReminders } from './src/useReminders';
+import { ReminderSettings } from './src/ReminderSettings';
 import { TodayScreen } from './src/TodayScreen';
 import { useLocalDate } from './src/useLocalDate';
 import React, { useEffect, useRef, useState } from 'react';
@@ -19,6 +21,8 @@ function CalendarApp() {
   const { state, loading, saving, error, loadFailed, reload, commit } = useLocalState();
   const today = useLocalDate();
   const backpacks = useBackpacks();
+  const reminderCalendarReady = loading || backpacks.loading ? null : !!state.profile && !loadFailed;
+  const reminders = useReminders(today, reminderCalendarReady, state.schedule, state.routine, backpacks.bags);
   const [bagTarget, setBagTarget] = useState<BagTarget | null>(null);
   const [visible, setVisible] = useState(() => ({ year: new Date().getFullYear(), month: new Date().getMonth() }));
   const [screen, setScreen] = useState<'today' | 'calendar' | 'profile' | 'routine' | 'bags'>('today');
@@ -59,6 +63,7 @@ function CalendarApp() {
         onMonth={direction => setVisible(current => moveMonth(current.year, current.month, direction))}
         onToday={() => { const date = parseDate(today); setVisible({ year: date.getFullYear(), month: date.getMonth() }); }}
         onEdit={setEditing} />}
+      {state.profile && screen === 'profile' && <ReminderSettings store={reminders} />}
       <Text style={s.muted}>Solo en este dispositivo · Sin cuentas vinculadas</Text>
     </ScrollView>
     {!!state.profile && <View style={[s.nav, { gap: 4, padding: 4 }]}>
