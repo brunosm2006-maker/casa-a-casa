@@ -45,4 +45,4 @@ La creación solicita fecha y consulta el destino efectivo. Si falta, enlaza al 
 
 Copiar genera objetos nuevos y pendientes. Editar conserva el borrador hasta guardar correctamente. Eliminar objetos o listas requiere una confirmación con opción de conservarlos. Los errores de guardado se muestran sin perder los datos guardados ni el texto en edición.
 
-Una discrepancia con el calendario se señala en la lista y en su tarjeta, sin reasignar ni borrar objetos. El acceso desde Hoy y mañana usa coincidencia de fecha y destino. Los permisos familiares siguen pendientes.
+Una discrepancia con el calendario se señala en la lista y en su tarjeta, sin reasignar ni borrar objetos. El acceso desde Hoy y mañana usa coincidencia de fecha y destino. Los permisos familiares separan la consulta y propuesta de los hijos de la gestión y resolución parental. La integración remota está pendiente de habilitar el proyecto elegido.

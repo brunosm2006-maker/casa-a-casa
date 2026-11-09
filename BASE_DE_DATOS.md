@@ -1,66 +1,53 @@
-# Casa a Casa · propuesta inicial de datos
+# Casa a Casa · cuentas, familia y propuestas
 
-Ubicación única del proyecto y de todos sus archivos futuros: `C:\Users\pc\Desktop\Bruno\Casa a Casa`. La propuesta sigue pendiente de revisión; no se ha avanzado en permisos ni conectado una base.
+Actualizado el 9 de noviembre de 2026. Proyecto en C:\Users\pc\Desktop\Bruno\Casa a Casa.
 
-29 de octubre de 2026. Propuesta para revisar. No se ha elegido proveedor, conectado una base de datos, creado servicios remotos ni implementado SQL o un backend.
+La aplicación y la migración están preparadas. El usuario eligió el proyecto xsaxwhqwjvzafrlfvchn y la cuenta AdBruno. Las herramientas de este chat aún solo exponen bruno y Jan. La consulta de sus proyectos y organizaciones confirma que ninguna corresponde a AdBruno ni contiene el proyecto elegido. No se ha aplicado la migración remota. Las reglas se han probado con PostgreSQL local mediante PGlite y usuarios de prueba. La autenticación y la sincronización entre teléfonos requieren la conexión real.
 
-## Cuándo hace falta
+## Modelo implementado
 
-Para probar Casa a Casa en un solo dispositivo basta el guardado local actual. Ya permite configurar una rutina, conservar excepciones y recuperar el calendario al abrir de nuevo.
+La cuenta de acceso pertenece a Supabase Auth. La tabla de miembros relaciona esa cuenta con una familia y fija un permiso parental o de hijo. El perfil madre, padre, hijo o hija adapta los textos. Cambiar el perfil del modo individual no cambia un permiso familiar.
 
-Para que madres, padres e hijos consulten el mismo calendario desde distintos teléfonos se justifica una base compartida, con cuentas y control de acceso. Ese es el objetivo de la aplicación pública. No hace falta conectarla antes de acordar quién podrá consultar y modificar cada calendario.
+| Tabla | Contenido |
+| --- | --- |
+| casa_families | Familia y cuenta que la crea. |
+| casa_members | Nombre familiar, perfil, permiso y cuenta opcional. |
+| casa_calendars | Un calendario por miembro hijo, con rutina, excepciones y número de revisión. |
+| casa_proposals | Fechas y destino propuestos, explicación, revisión de origen, estado y resolución. |
+| casa_private.invitations | Huella del código, miembro al que vincula, caducidad, revocación y cuenta que lo usó. |
 
-## Tres conceptos distintos
+Se conservan las etiquetas de hogar madre y padre del calendario existente. La rutina y las excepciones mantienen sus formatos y fechas civiles. El servidor limita el calendario a 1 MB de JSON. Una excepción vacía deja el día sin asignar y retirar la excepción recupera la rutina.
 
-- **Cuenta de acceso**: permite iniciar sesión. Se reutilizaría el sistema del proveedor elegido, sin duplicar su tabla de autenticación ni guardar contraseñas en tablas propias.
-- **Miembro familiar**: representa a una persona dentro de una familia. Puede ser hijo, hija, madre o padre. Puede existir sin cuenta; por ejemplo, un hijo pequeño cuyo calendario organizan sus progenitores. Una cuenta puede estar vinculada a miembros de distintas familias.
-- **Hogar**: es una de las casas de una estancia. No es una cuenta ni un perfil. Se identifica con una etiqueta, sin necesitar una dirección física. Ser madre o padre no concede por sí solo un permiso de edición.
+## Reglas de acceso
 
-## Tablas mínimas propuestas
+Los progenitores consultan y gestionan los calendarios de los hijos de su familia. Cualquiera de los progenitores autorizados puede aceptar o rechazar una propuesta. Los hijos consultan únicamente su propio calendario y proponen cambios de fechas y destino. Pueden añadir una explicación.
 
-| Tabla | Para qué sirve | Datos principales orientativos |
-| --- | --- | --- |
-| `familias` | Agrupar a las personas y hogares relacionados. | Identificador y nombre opcional de la familia. |
-| `miembros_familiares` | Representar a hijos, hijas y progenitores, tengan cuenta o no. | Familia, nombre de uso, perfil y referencia opcional a la cuenta del proveedor. |
-| `hogares` | Identificar las casas entre las que se organiza la custodia. | Familia y etiqueta de la casa. No se deduce el hogar a partir del perfil de una cuenta. |
-| `calendarios` | Dar a cada hijo o hija su propio horario. | Familia y miembro que representa al hijo o hija. Inicialmente, un calendario por hijo. |
-| `rutinas_custodia` | Guardar la regla habitual de un calendario sin crear una fila por cada día futuro. | Calendario, fecha de inicio, reparto por día de la semana, viernes de referencia y hogares de los dos turnos alternos. |
-| `excepciones_calendario` | Guardar cambios puntuales para vacaciones, festivos u otros días. | Calendario, fecha y hogar elegido, que puede quedar vacío de forma explícita. Una excepción por calendario y fecha. |
+Se crean hijos representados sin cuenta con su calendario. Un progenitor genera después una invitación para vincular una cuenta al miembro existente. Así se conserva el calendario. Una cuenta puede pertenecer a varias familias con permisos distintos.
 
-Los campos son orientativos, no un esquema cerrado. El reparto semanal podría guardarse como una estructura de siete entradas dentro de la rutina. Cada entrada indicaría hogar fijo, turno alterno o día sin asignar. El formato concreto se elegiría al diseñar la base.
+Las tablas expuestas usan RLS y solo conceden lectura a cuentas autenticadas según su pertenencia y calendario. Las escrituras pasan por una lista cerrada de operaciones. Las funciones con privilegios están en un esquema privado, fijan un search_path vacío y comprueban la sesión y la pertenencia. El cliente solo utiliza una clave publicable.
 
-La rutina de fines de semana alternos usa el mismo modelo: viernes a domingo alternan a partir de una fecha conocida. Los días entre semana y el otro turno pueden quedar sin asignar. Las fechas se guardan como fechas de calendario, sin convertirlas en instantes UTC que puedan desplazar el día.
+Los códigos se generan en el servidor, caducan en 48 horas y vinculan una cuenta al miembro y permiso fijados por el progenitor. Se comparte el código manualmente. Generar uno nuevo invalida el anterior. Cambiar un argumento del cliente no cambia el permiso. La huella se guarda con SHA-256 y el código completo solo se devuelve al generarlo.
 
-## Relaciones y comportamiento
+## Cambios y conflictos
 
-Una familia tiene miembros y hogares. Cada hijo o hija tiene su propio calendario; dos hermanos pueden tener rutinas y excepciones diferentes. Un hijo representado sin cuenta sigue teniendo calendario, y se podría vincular una cuenta más adelante sin crear otro hijo ni perder sus fechas.
+Crear una propuesta conserva el calendario confirmado. Aceptar bloquea el calendario y la propuesta dentro de una transacción, verifica el permiso parental y la revisión de origen, aplica el rango y registra quién resolvió. Repetir la misma aceptación devuelve la resolución existente. Rechazar conserva las fechas.
 
-Cada calendario tiene una rutina activa y sus excepciones. Las asignaciones de rutina y excepciones apuntan a hogares de la misma familia. No se almacenaría un calendario completo para cada año: se calcularía cada día desde la regla, con una alternancia estable entre años.
+Si otro cambio ha aumentado la revisión, la aceptación falla. Se muestra el conflicto y se puede rechazar y pedir una propuesta nueva. El guardado parental y la importación también exigen la revisión que se estaba editando.
 
-La excepción siempre tiene prioridad. Si existe una fila con hogar vacío, el día está sin asignar aunque la rutina diga otra cosa. Si se elimina la excepción, vuelve a aplicarse la rutina. Si tampoco hay rutina para ese día, permanece sin asignar. El próximo cambio requiere dos días consecutivos con hogares conocidos y distintos.
+La consulta se renueva al entrar, al volver a la app y cada 15 segundos con conexión. Los datos familiares no se guardan como copia local del calendario. Un fallo de consulta retira el contenido familiar visible. El cambio de familia y el cierre de sesión retiran la selección anterior.
 
-El editor puede seguir admitiendo rangos y guardarlos como excepciones por fecha, igual que el prototipo. Cambiar la rutina conserva esas excepciones. El modelo inicial mantiene una regla activa por calendario; un historial de reglas con fechas de vigencia sería una ampliación posterior.
+## Datos individuales y privados
 
-## Conservar los datos del prototipo
+Las claves individuales del calendario, las mochilas y los recordatorios se conservan. Importar un calendario exige elegir el hijo, revisar cuántas excepciones y rutinas se copiarán y confirmar la sustitución del calendario familiar. Se conserva el original individual.
 
-No se modifica ahora el almacenamiento local. Las claves `custodia.calendario.v1` y `custodia.calendario.v2`, sus datos y el origen de la vista local se conservan.
+Las mochilas y preferencias de avisos familiares permanecen en el dispositivo, separadas por cuenta y calendario. La planificación de avisos usa el calendario confirmado seleccionado. Al cambiar de calendario se revisa la cola de avisos. Estos datos privados no se envían a la familia.
 
-Cuando se autorice la conexión, habrá que asignar explícitamente el calendario local a un hijo y relacionar las etiquetas actuales de madre/padre con los hogares correctos. No se debe deducir esa relación a partir de quien inicia sesión. Las fechas manuales anteriores, las excepciones vacías, la fecha de inicio y el anclaje de alternancia deben mantenerse.
+## Habilitar el servidor
 
-La importación deberá poder repetirse sin duplicar datos y verificarse antes de retirar ninguna copia local. Esta propuesta no ejecuta esa importación.
+El servidor elegido es https://xsaxwhqwjvzafrlfvchn.supabase.co. La conexión de AdBruno debe aparecer en las herramientas del chat con acceso al proyecto para aplicar y comprobar el modelo. Una vez habilitado, se debe aplicar supabase/migrations/20261109193242_family_access.sql, comprobar RLS y asesores de seguridad, y configurar los dos valores públicos de configuracion.example en un archivo .env.local.
 
-## Permisos pendientes de decidir
+Configura el acceso por correo y contraseña con confirmación de correo y la dirección de revisión permitida. El registro se inicia solo mediante el botón de la app. Las invitaciones familiares se comparten con su código. Después recompila web y móvil y verifica con cuentas de prueba autorizadas la sesión, el aislamiento y la consulta desde dos dispositivos.
 
-Antes de conectar una base real hay que resolver quién puede consultar cada calendario, quién puede modificar su rutina o sus excepciones, qué pueden hacer los hijos y cómo se vinculan o desvinculan las cuentas familiares.
+Las pruebas PGlite verifican las funciones y RLS de PostgreSQL con auth.uid() de prueba. Las pruebas de interfaz interceptan la API con datos ficticios. Queda pendiente la integración real con Supabase Auth, PostgREST y teléfonos físicos.
 
-Pertenecer a una familia no debe interpretarse automáticamente como acceso a todos sus calendarios. Si se acuerdan permisos por calendario o por persona, podría añadirse una tabla de accesos, con la persona, el calendario y los permisos aprobados. Se decidirá después de esa conversación; no se fijan aquí permisos por edad, perfil o parentesco.
-
-También quedan pendientes las invitaciones, la asociación de una cuenta a un miembro ya representado y cómo resolver ediciones simultáneas. No se da por aprobada una confirmación familiar de cambios.
-
-## Qué vendría después
-
-Estas seis tablas cubren el calendario que ya funciona. «Hoy y mañana» puede consultar esos mismos datos sin necesitar una tabla propia.
-
-«Mochila» requerirá listas y elementos, con su relación con el hijo o la estancia y sus permisos de privacidad. Los avisos requerirán preferencias individuales y, cuando se implementen notificaciones reales, los datos de dispositivos y entrega que sean necesarios. Ambos avisos mantienen el día anterior por defecto, configuración independiente y ninguna hora predeterminada elegida.
-
-Estas tablas posteriores no forman parte de la conexión inicial. El siguiente paso es decidir quién podrá consultar y modificar el calendario.
+Fuentes consultadas el 9 de noviembre. [Supabase Auth con React Native](https://supabase.com/docs/guides/auth/quickstarts/react-native), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).

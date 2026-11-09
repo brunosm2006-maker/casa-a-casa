@@ -1,6 +1,6 @@
 # Casa a Casa · borrador funcional
 
-Actualizado el 4 de noviembre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con estructura, calendario, Hoy y mañana y Mochila funcionales. Los recordatorios locales se configuran desde Perfil.
+Actualizado el 9 de noviembre de 2026. Casa a Casa es el nombre definitivo elegido por el usuario. Borrador actualizado con estructura, calendario, Hoy y mañana y Mochila funcionales. Los recordatorios locales se configuran desde Perfil.
 
 Todos los archivos del proyecto se conservan en `C:\Users\pc\Desktop\Bruno\Casa a Casa`. Esta es la única carpeta principal y destino de todo trabajo futuro; sustituye las ubicaciones anteriores de Documentos.
 
@@ -55,7 +55,7 @@ Al registrarse, cada persona elegirá un perfil de hijo/hija o madre/padre. El p
 
 Como propuesta inicial, el hijo o la hija verá en el calendario con quién está cada día y cuándo cambia de casa. La madre o el padre verá cuándo estará su hijo o hija con él o ella.
 
-Queda por decidir quién podrá editar las fechas y cómo se vincularán las cuentas de una familia.
+Los hijos proponen cambios y los progenitores pueden aceptarlos o rechazarlos. El recorrido de cuentas e invitaciones está preparado y su conexión real está pendiente del proyecto propio. BASE_DE_DATOS.md y PLAN.md recogen el estado actual.
 
 ## Funciones por fase
 
@@ -103,10 +103,10 @@ El mismo funcionamiento se aplicará cuando la siguiente estancia sea con su mad
 ## Decisiones pendientes
 
 - Cómo evolucionarán las pantallas y la navegación básica desde la propuesta inicial Calendario/Perfil.
-- Quién crea y edita las fechas del calendario.
-- Cómo se vinculan las cuentas familiares.
+- Activar el proyecto de servidor para cuentas y familia.
+- Verificar las invitaciones y la sincronización con cuentas reales de prueba.
 - Quién puede ver y modificar las listas personales y cómo se presentan las listas y los avisos en cada perfil.
 
 ## Ideas para valorar más adelante
 
-La rutina automática y las excepciones manuales de festivos o vacaciones ya están confirmadas e implementadas. Siguen sin confirmarse la aprobación familiar de cambios de vacaciones y el uso individual como funcionamiento definitivo aunque el resto de la familia no tenga cuenta. La edición local actual sirve para probar la aplicación.
+La rutina automática y las excepciones manuales de festivos o vacaciones ya están confirmadas e implementadas. El modo individual se conserva. Vacaciones, horas y copias de seguridad son las siguientes fases. La edición local actual sirve para probar la aplicación.

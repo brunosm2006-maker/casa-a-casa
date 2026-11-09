@@ -1,6 +1,6 @@
 # Casa a Casa · verificación
 
-Actualizado el 4 de noviembre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
+Actualizado el 9 de noviembre de 2026. Entorno: Windows, Node 24.19.0, Expo SDK 58 y Microsoft Edge.
 
 ## Ubicación definitiva y comprobación del traslado del 29 de octubre
 
@@ -75,7 +75,7 @@ TypeScript, exportación web y paquetes JavaScript/Hermes de iPhone y Android co
 
 La fecha usa el reloj local del dispositivo. Se programa un refresco a la próxima medianoche, se refresca al activar la aplicación y en web al recuperar foco o visibilidad. Una comprobación cada treinta segundos sirve de respaldo. Los cambios internos guardados se reflejan de inmediato.
 
-Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. En aquella entrega todavía no se habían añadido listas o acciones de Mochila. En aquella entrega aún no se habían añadido notificaciones, servicios ni base de datos. Los permisos familiares siguen pendientes. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
+Son previsiones del calendario; no hay ubicación real, horas del cambio, nombres de hijos inventados ni sincronización familiar. En aquella entrega todavía no se habían añadido listas o acciones de Mochila. En aquella entrega aún no se habían añadido notificaciones, servicios ni base de datos. Los permisos familiares se han preparado en la entrega del 9 de noviembre. Falta la prueba de reanudación y presentación en teléfonos físicos; la exportación móvil no sustituye esa prueba.
 
 ## Mochila: comprobaciones del 2 de noviembre
 
@@ -87,7 +87,7 @@ Las cinco nuevas de navegador cubren crear, editar, marcar y desmarcar; progreso
 
 Se revisaron capturas de Mochila a 320 y 1280 píxeles. Los nombres largos se ajustan y las cinco secciones siguen accesibles. La exportación web y los paquetes JavaScript/Hermes de iOS y Android se regeneran para esta entrega. Sigue pendiente probar en teléfonos físicos; estos paquetes no son instaladores.
 
-Las listas usan custodia.mochilas.v1, separada del calendario. No hay cambios en las claves anteriores, el perfil, el cuestionario ni el origen local. Todos los perfiles comparten las listas de este calendario local; los permisos familiares definitivos siguen pendientes. Se admiten 100 listas, 100 objetos por lista y 120 caracteres por objeto.
+Las listas usan custodia.mochilas.v1, separada del calendario. No hay cambios en las claves anteriores, el perfil, el cuestionario ni el origen local. Todos los perfiles comparten las listas de este calendario local; los permisos familiares se han preparado en la entrega del 9 de noviembre. Se admiten 100 listas, 100 objetos por lista y 120 caracteres por objeto.
 
 El acceso de Hoy y mañana se muestra el día anterior y el propio día del próximo cambio. Es una acción dentro de la aplicación. En la entrega de Mochila aún estaban pendientes los dos recordatorios del sistema.
 ## Recordatorios locales del 4 de noviembre
@@ -97,3 +97,18 @@ Pasaron 53 pruebas de lógica y persistencia y 26 pruebas de navegador en Edge. 
 Pasaron TypeScript y la exportación web, iOS y Android. La configuración de Expo reconoce el plugin de notificaciones para SDK 58. La comprobación de versiones acepta expo-notifications 58.1.8 y señala tres dependencias preexistentes con actualización recomendada, Expo, Metro Runtime y Safe Area Context. El informe de npm al instalar mostró diez entradas de auditoría. Estas comprobaciones no se trataron como parte de la fase de recordatorios.
 
 Pendiente en teléfonos físicos comprobar el diálogo del sistema, rechazo y recuperación de permisos, y entrega con la app en segundo plano, incluidos los retrasos de Android. El servidor local mantiene el origen habitual.
+
+
+## Familia y propuestas del 9 de noviembre
+
+Pasaron 63 pruebas de lógica, persistencia y SQL. Las reglas de la migración se ejecutaron en PostgreSQL local con PGlite 0.5.16. Las identidades y auth.uid() se sustituyen en la prueba para comprobar permisos con los roles anon y authenticated. Esto verifica el SQL y RLS local, con autenticación simulada.
+
+Se comprueban aislamiento entre familias y hermanos, rechazo de edición directa y resolución por hijos, códigos de invitación renovados o caducados, rol fijado por el servidor, vinculación de otro progenitor, propuestas idempotentes, aceptación doble sin duplicar cambios, rechazo conservando fechas, conflictos por revisión y recuperación de rutina frente a excepción vacía. Otra prueba verifica claves privadas de mochilas y preferencias por cuenta y calendario.
+
+Pasaron 27 pruebas del navegador sobre la versión local, incluidas las regresiones existentes y la entrada a Cuenta y familia sin servidor conectado. Dos pruebas adicionales, ejecutadas por separado con API simulada, verifican el recorrido visual de propuesta de hijo, resolución parental, selección de hermanos, cambio de familia, cierre de sesión y errores de consulta. Estas dos pruebas generan las capturas en revision/.
+
+TypeScript y exportaciones web, iOS y Android correctos. La revisión visual incluye las tarjetas de propuesta del hijo y del progenitor. Las capturas contienen datos ficticios.
+
+El usuario eligió https://xsaxwhqwjvzafrlfvchn.supabase.co y finalmente autorizó la cuenta AdBruno. Las conexiones bruno y Jan devolvieron denegación de acceso al consultar ese proyecto. La consulta posterior con bruno también fue denegada. Tras avisar el usuario de la conexión de AdBruno, los metadatos siguen exponiendo solo bruno y Jan. Se volvieron a consultar sus proyectos y organizaciones y no aparece AdBruno ni el proyecto elegido. El esquema no se ha aplicado al servidor y no se ha probado Supabase Auth ni sincronización remota real. La aplicación de revisión muestra esta conexión pendiente.
+
+Queda disponer de la conexión AdBruno y aplicar la migración en el proyecto elegido, obtener la clave publicable, ejecutar asesores de seguridad y probar con cuentas autorizadas y dos dispositivos. Durante este trabajo no se han enviado invitaciones a personas reales ni modificado los proyectos existentes.

@@ -22,7 +22,8 @@ El proyecto completo se ha trasladado al Bruno del Escritorio por petición expr
 - [AGENTS.md](AGENTS.md): instrucción permanente sobre la ubicación de los archivos.
 - [DISEÑO.md](DISEÑO.md): criterios de interfaz y base técnica.
 - [VERIFICACION.md](VERIFICACION.md): comprobaciones y limitaciones.
-- [BASE_DE_DATOS.md](BASE_DE_DATOS.md): propuesta de tablas para compartir los calendarios; pendiente de revisar, sin conexión a una base real.
+- [BASE_DE_DATOS.md](BASE_DE_DATOS.md): modelo de familia, permisos y conexión del servidor.
+- [PLAN.md](PLAN.md): estado de la entrega y próximos pasos, incluidas las copias de seguridad.
 - [ABRIR.cmd](ABRIR.cmd): abre el servidor de la versión local ya compilada.
 - Este documento: registro de decisiones, preguntas y propuestas.
 
@@ -33,6 +34,18 @@ Hay una primera versión funcional de Casa a Casa, con estructura y calendario, 
 El primer uso sigue este recorrido: elegir Hijo, Hija, Madre o Padre → contestar un cuestionario de custodia → revisar las respuestas → confirmar y abrir Hoy y mañana con el calendario generado. Las plantillas no se guardan sin esa confirmación. Si se recarga antes de terminar, se vuelve al cuestionario sin aplicar la plantilla. Confirmar o elegir «Ahora no» completa la configuración inicial. La navegación ofrece Hoy y mañana, Calendario, Mochila, Rutina y Perfil. Las personas con un perfil de la versión anterior conservan su calendario y pueden acceder al cuestionario sin repetirlo en cada apertura.
 
 Incluye las plantillas ampliadas y el reparto personalizado, navegación mensual, cambios puntuales para días o estancias, persistencia local y próximo cambio calculado con la rutina y sus excepciones. No se incluyen fechas de demostración como datos reales.
+
+## Cuenta y familia
+
+La sección está preparada para Supabase Auth y calendarios compartidos. El usuario eligió el proyecto xsaxwhqwjvzafrlfvchn. Su activación está pendiente de que las herramientas del chat dispongan de la conexión AdBruno autorizada por el usuario. La vista local muestra ese estado y permite continuar en modo individual.
+
+El recorrido preparado incluye crear o iniciar sesión, crear una familia, añadir hijos con su propio calendario y vincular cuentas mediante códigos de invitación de 48 horas. Los progenitores gestionan los calendarios y resuelven propuestas. Los hijos consultan su propio calendario y proponen fechas y destino con explicación opcional.
+
+Aceptar aplica el cambio y registra la resolución dentro de una transacción. Rechazar conserva el calendario. Si hubo un cambio posterior, se avisa del conflicto. Se renuevan las consultas al entrar, al volver a la app y cada 15 segundos con conexión.
+
+La importación del calendario individual exige confirmación y conserva el original. Mochilas y ajustes de avisos se guardan por cuenta y calendario en este dispositivo. Se preparan avisos del calendario abierto. El modelo y la configuración están en BASE_DE_DATOS.md.
+
+Las capturas de revision/ muestran datos ficticios de las pruebas de interfaz con API simulada. Las reglas SQL se probaron en PostgreSQL local con PGlite. Queda pendiente la prueba real de autenticación, acceso y sincronización con Supabase.
 
 ## Hoy y mañana
 
@@ -124,11 +137,11 @@ Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de 
 
 ## Verificación
 
-- `npm test`: 53 pruebas de calendario, fechas locales, edición de fechas, rutinas, Mochila y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
+- `npm test`: 63 pruebas de calendario, fechas locales, edición de fechas, rutinas, Mochila y persistencia, ejecutadas con la zona Europe/Madrid. Cubren todas las plantillas, meses naturales, años bisiestos, búsqueda de cambios largos, vista previa, excepciones, migración y copia del estado anterior.
 - `npm run typecheck`: comprobación de TypeScript.
 - `npm run build:web`: compilación web.
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
-- `npm run test:browser`: 26 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
+- `npm run test:browser`: 27 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
 
 Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
 
@@ -146,13 +159,13 @@ Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualme
 
 ## Propuesta de vistas por perfil
 
-El borrador propone un calendario familiar con vistas adaptadas: el hijo o la hija ve con quién está cada día y el próximo cambio; el progenitor ve cuándo estará su hijo o hija con él o ella. La edición de fechas y la vinculación de cuentas siguen pendientes de concretar.
+El borrador propone un calendario familiar con vistas adaptadas: el hijo o la hija ve con quién está cada día y el próximo cambio; el progenitor ve cuándo estará su hijo o hija con él o ella. Los hijos proponen cambios y los progenitores pueden aceptarlos o rechazarlos. La conexión del servidor elegido sigue pendiente.
 
-## Preguntas pendientes
+## Decisiones y preguntas pendientes
 
 - ¿Cómo evolucionarán las pantallas y la navegación básica a partir de la propuesta inicial Calendario/Perfil?
-- ¿Quién podrá crear y editar las fechas del calendario?
-- ¿Cómo se vincularán las cuentas familiares?
+- Los progenitores gestionan el calendario familiar. Los hijos proponen cambios y los progenitores aceptan o rechazan.
+- La preparación vincula cuentas mediante invitaciones parentales. Falta habilitar el servidor.
 - ¿Quién podrá ver y modificar cada lista personal de «Mochila»?
 - ¿Cómo se presentarán y gestionarán las listas y los avisos en cada perfil?
 
@@ -165,6 +178,6 @@ Estas propuestas no forman parte de los requisitos confirmados.
 
 ## Alcance actual
 
-El trabajo autorizado incluye estructura, calendario, Hoy y mañana y Mochila, ya implementados. Se ha elegido Expo y React Native como base compartida para esta versión. El alcance incluye avisos locales en la app móvil. Las cuentas familiares y la sincronización siguen pendientes.
+El trabajo autorizado incluye estructura, calendario, Hoy y mañana y Mochila, ya implementados. Se ha elegido Expo y React Native como base compartida para esta versión. El alcance incluye avisos locales en la app móvil. Cuentas, familias y propuestas están preparadas y pendientes de conectar al proyecto propio.
 
-No se ha autorizado incorporar chat, ubicación o pagos; publicar la aplicación; crear un backend ni abrir cuentas en servicios.
+El backend propio de familia está autorizado sin coste. Chat, ubicación, pagos y publicación requieren otro encargo.
