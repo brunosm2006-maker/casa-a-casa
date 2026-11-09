@@ -24,8 +24,8 @@ function validOption(value: unknown): value is ReminderOption {
     typeof time === 'string' && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time);
 }
 
-export async function loadReminders(storage: { getItem(key: string): Promise<string | null> }): Promise<ReminderSettings> {
-  const raw = await storage.getItem(storageKey);
+export async function loadReminders(storage: { getItem(key: string): Promise<string | null> }, scope?: string): Promise<ReminderSettings> {
+  const raw = await storage.getItem(scope ? storageKey + ':' + scope : storageKey);
   if (raw === null) return defaultReminders;
   const value = JSON.parse(raw);
   if (value?.version !== 1 || !validOption(value.change) || !validOption(value.bag)) {
@@ -34,14 +34,14 @@ export async function loadReminders(storage: { getItem(key: string): Promise<str
   return { change: value.change, bag: value.bag };
 }
 
-export async function saveReminders(storage: { setItem(key: string, value: string): Promise<void> }, settings: ReminderSettings) {
+export async function saveReminders(storage: { setItem(key: string, value: string): Promise<void> }, settings: ReminderSettings, scope?: string) {
   for (const option of Object.values(settings)) {
     if (!Number.isInteger(option.daysBefore) || option.daysBefore < 0 || option.daysBefore > 7) {
       throw new RangeError('Indica entre 0 y 7 días antes del cambio.');
     }
     if (!validOption(option)) throw new RangeError('Usa una hora válida en formato HH:MM.');
   }
-  await storage.setItem(storageKey, JSON.stringify({ version: 1, ...settings }));
+  await storage.setItem(scope ? storageKey + ':' + scope : storageKey, JSON.stringify({ version: 1, ...settings }));
 }
 
 export function planReminders(now: Date, settings: ReminderSettings, exceptions: Schedule, routine: Routine | null, bags: PackingList[]) {

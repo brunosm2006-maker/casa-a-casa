@@ -7,8 +7,9 @@ import { effectiveHome, setExceptionRange, type Routine } from './routine';
 import { Button } from './ui';
 import { colors, s } from './theme';
 
-export function StayEditor({ day, schedule, routine, saving, storageError, onSave, onClose }: {
+export function StayEditor({ day, schedule, routine, saving, storageError, onSave, onClose, shared = false }: {
   day: string; schedule: Schedule; routine: Routine | null; saving: boolean; storageError: string;
+  shared?: boolean;
   onSave: (schedule: Schedule, start: string) => Promise<boolean>; onClose: () => void;
 }) {
   const [start, setStart] = useState(inputDate(day));
@@ -53,7 +54,7 @@ export function StayEditor({ day, schedule, routine, saving, storageError, onSav
         <Text style={s.muted}>«Dejar sin asignar» deja esos días vacíos, aunque haya rutina. «Quitar cambio puntual» recupera la rutina; si no hay una, los deja vacíos. El resto del calendario se conserva.</Text>
         {!!(error || storageError) && <Text accessibilityRole="alert" style={s.error}>{error || storageError}</Text>}
         <Button label={saving ? 'Guardando…' : 'Guardar cambio puntual'} disabled={saving} onPress={() => { void save(); }} />
-        <Text style={s.muted}>Los cambios se guardan solo aquí. No se enviarán avisos ni se compartirán con otra cuenta.</Text>
+        <Text style={s.muted}>{shared ? 'Al guardar se actualiza el calendario familiar confirmado.' : 'Los cambios se guardan en tu calendario individual.'}</Text>
       </ScrollView>
     </SafeAreaView>
   </Modal>;

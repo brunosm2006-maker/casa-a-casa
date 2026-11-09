@@ -10,8 +10,9 @@ import { dailyOverview } from './dailyOverview';
 import { Button } from './ui';
 import { colors, s } from './theme';
 
-export function TodayScreen({ today, exceptions, routine, profile, backpacks, onBackpack, onCalendar, onRoutine }: {
+export function TodayScreen({ today, exceptions, routine, profile, backpacks, onBackpack, onCalendar, onRoutine, editable = true, shared = false }: {
   today: string; exceptions: Schedule; routine: Routine | null; profile: Profile;
+  editable?: boolean; shared?: boolean;
   backpacks: ReturnType<typeof useBackpacks>; onBackpack: (target: BagTarget) => void; onCalendar: () => void; onRoutine: () => void;
 }) {
   const overview = dailyOverview(today, exceptions, routine);
@@ -23,7 +24,7 @@ export function TodayScreen({ today, exceptions, routine, profile, backpacks, on
       <Text style={s.eyebrow}>LAS PRÓXIMAS ESTANCIAS</Text>
       <Text accessibilityRole="header" style={s.title}>Hoy y mañana</Text>
       <Text style={s.body}>{child ? 'Consulta con quién tienes prevista tu estancia.' : 'Consulta las estancias previstas de tu hijo o hija.'}</Text>
-      <Text style={s.muted}>Según tu calendario local. Las fechas indican días completos, sin horarios dentro del día.</Text>
+      <Text style={s.muted}>{shared ? 'Según el calendario familiar confirmado.' : 'Según tu calendario local.'} Las fechas indican días completos, sin horarios dentro del día.</Text>
     </View>
     {[{ label: 'Hoy', id: 'today', day: overview.today }, { label: 'Mañana', id: 'tomorrow', day: overview.tomorrow }].map(({ label, id, day }) =>
       <View key={id} testID={id + '-card'} style={[s.card, { borderLeftWidth: 5,
@@ -53,6 +54,6 @@ export function TodayScreen({ today, exceptions, routine, profile, backpacks, on
       <Text style={s.body}>Puedes usar las fechas que añadas manualmente o configurar una rutina para completar el calendario.</Text>
     </View>}
     <Button label="Ver calendario" onPress={onCalendar} />
-    <Button label={routine ? 'Cambiar rutina' : 'Configurar rutina'} secondary onPress={onRoutine} />
+    {editable && <Button label={routine ? 'Cambiar rutina' : 'Configurar rutina'} secondary onPress={onRoutine} />}
   </View>;
 }

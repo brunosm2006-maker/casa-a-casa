@@ -6,8 +6,9 @@ import { type Schedule } from './calendar';
 import { device, type ReminderPermission } from './reminderDevice';
 import { loadReminders, planReminders, reconcileReminders, saveReminders, type ReminderSettings } from './reminders';
 import { type Routine } from './routine';
+let systemQueue = Promise.resolve();
 
-export function useReminders(today: string, calendarReady: boolean | null, exceptions: Schedule, routine: Routine | null, bags: PackingList[]) {
+export function useReminders(today: string, calendarReady: boolean | null, exceptions: Schedule, routine: Routine | null, bags: PackingList[], scope?: string) {
   const [settings, setSettings] = useState<ReminderSettings | null>(null);
   const [readError, setReadError] = useState(false);
   const [saveError, setSaveError] = useState('');
@@ -19,11 +20,11 @@ export function useReminders(today: string, calendarReady: boolean | null, excep
   const [saving, setSaving] = useState(false);
   const writeBusy = useRef(false);
   const permissionBusy = useRef(false);
-  const queue = useRef(Promise.resolve());
+
 
   useEffect(() => {
     let current = true;
-    loadReminders(AsyncStorage).then(
+    loadReminders(AsyncStorage, scope).then(
       value => { if (current) setSettings(value); },
       () => { if (current) setReadError(true); },
     );
@@ -43,7 +44,7 @@ export function useReminders(today: string, calendarReady: boolean | null, excep
     if (!api || (!settings && !readError) || calendarReady === null || requesting) return;
     let current = true;
     // Only one reconciliation may write to the system queue at a time.
-    queue.current = queue.current.then(async () => {
+    systemQueue = systemQueue.then(async () => {
       if (!current) return;
       try {
         const access = await api.permission();
@@ -61,13 +62,18 @@ export function useReminders(today: string, calendarReady: boolean | null, excep
     return () => { current = false; };
   }, [today, refresh, calendarReady, exceptions, routine, bags, settings, readError, requesting]);
 
+  useEffect(() => () => {
+    const api = device;
+    if (api && scope) systemQueue = systemQueue.then(() => reconcileReminders([], api)).catch(() => {});
+  }, []);
+
   async function save(next: ReminderSettings) {
     if (writeBusy.current || !settings) return false;
     writeBusy.current = true;
     setSaving(true);
     setSaveError('');
     try {
-      await saveReminders(AsyncStorage, next);
+      await saveReminders(AsyncStorage, next, scope);
       setSettings(next);
       return true;
     } catch (error) {

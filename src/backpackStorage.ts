@@ -19,12 +19,12 @@ export function decodeBackpacks(raw: string): PackingList[] {
   }
   return value.lists.map((bag: PackingList) => ({ ...bag, items: bag.items.map(item => ({ ...item })) }));
 }
-export async function loadBackpacks(storage: { getItem(key: string): Promise<string | null> }): Promise<PackingList[]> {
-  const raw = await storage.getItem(KEY);
+export async function loadBackpacks(storage: { getItem(key: string): Promise<string | null> }, key = KEY): Promise<PackingList[]> {
+  const raw = await storage.getItem(key);
   return raw === null ? [] : decodeBackpacks(raw);
 }
-export async function saveBackpacks(storage: { setItem(key: string, value: string): Promise<void> }, lists: PackingList[]): Promise<void> {
+export async function saveBackpacks(storage: { setItem(key: string, value: string): Promise<void> }, lists: PackingList[], key = KEY): Promise<void> {
   const raw = JSON.stringify({ version: 1, lists });
   decodeBackpacks(raw);
-  await storage.setItem(KEY, raw);
+  await storage.setItem(key, raw);
 }

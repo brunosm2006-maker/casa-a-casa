@@ -1,3 +1,4 @@
+import { FamilyScreen } from './src/FamilyScreen';
 import { BackpackScreen, type BagTarget } from './src/BackpackScreen';
 import { useBackpacks } from './src/useBackpacks';
 import { useReminders } from './src/useReminders';
@@ -17,7 +18,7 @@ import { useLocalState } from './src/useLocalState';
 import { Button } from './src/ui';
 import { colors, s } from './src/theme';
 
-function CalendarApp() {
+function CalendarApp({ onFamily }: { onFamily(): void }) {
   const { state, loading, saving, error, loadFailed, reload, commit } = useLocalState();
   const today = useLocalDate();
   const backpacks = useBackpacks();
@@ -47,6 +48,7 @@ function CalendarApp() {
         <Text style={s.eyebrow}>CASA A CASA</Text>
         <Text style={s.muted}>{state.profile ? profileLabel[state.profile] : 'Primera versión'}</Text>
       </View>
+      <Button label="Cuenta y familia" secondary onPress={onFamily} />
       {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}
       {(!state.profile || screen === 'profile') ? <ProfileScreen profile={state.profile} saving={saving} onChoose={async profile => {
         if (await commit({ ...state, profile })) setScreen(state.profile ? 'today' : 'routine');
@@ -83,5 +85,6 @@ function CalendarApp() {
 }
 
 export default function App() {
-  return <SafeAreaProvider><CalendarApp /></SafeAreaProvider>;
+  const [familyMode, setFamilyMode] = useState(false);
+  return <SafeAreaProvider>{familyMode ? <FamilyScreen onClose={() => setFamilyMode(false)} /> : <CalendarApp onFamily={() => setFamilyMode(true)} />}</SafeAreaProvider>;
 }

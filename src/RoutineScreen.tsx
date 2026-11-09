@@ -102,7 +102,7 @@ export function RoutineScreen({ routine, exceptions, profile, today, saving, sto
     </>}
     {step === 3 && review && <>
       <RoutineReview routine={review.routine} cycles={review.cycles} />
-      <Text style={s.muted}>No se programarán avisos. Los cambios puntuales se conservarán.</Text>
+      <Text style={s.muted}>Al confirmar se guarda la rutina y se conservan los cambios puntuales.</Text>
       {!!storageError && <Text accessibilityRole="alert" style={s.error}>{storageError}</Text>}
       <Button label={saving ? 'Guardando…' : 'Guardar rutina'} disabled={saving} onPress={async () => { await onSave(review.routine); }} />
       <Button label="Cambiar respuestas" secondary disabled={saving} onPress={() => go(2)} />

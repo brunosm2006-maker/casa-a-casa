@@ -6,10 +6,10 @@ import { type Profile } from './persistence';
 import { colors, s } from './theme';
 import { Button } from './ui';
 
-export function CalendarScreen({ year, month, today, exceptions, routine, profile, onMonth, onToday, onEdit, onRoutine }: {
+export function CalendarScreen({ year, month, today, exceptions, routine, profile, onMonth, onToday, onEdit, onRoutine, editable = true, shared = false }: {
   year: number; month: number; today: string; exceptions: Schedule; routine: Routine | null; profile: Profile;
   onMonth: (direction: number) => void; onToday: () => void; onEdit: (date: string) => void;
-  onRoutine: () => void;
+  onRoutine: () => void; editable?: boolean; shared?: boolean;
 }) {
   const cells = monthCells(year, month);
   const child = profile === 'hijo' || profile === 'hija';
@@ -24,7 +24,7 @@ export function CalendarScreen({ year, month, today, exceptions, routine, profil
       <Text style={s.eyebrow}>TU ORGANIZACIÓN FAMILIAR</Text>
       <Text accessibilityRole="header" style={s.title}>El tiempo en cada casa</Text>
       <Text style={s.body}>{child ? 'Consulta tus días y prepara el próximo cambio.' : 'Consulta los días que tu hijo o hija estará contigo.'}</Text>
-      <Button label={routine ? 'Cambiar rutina' : 'Configurar rutina'} secondary onPress={onRoutine} />
+      {editable && <Button label={routine ? 'Cambiar rutina' : 'Configurar rutina'} secondary onPress={onRoutine} />}
       {routine && <Text style={s.muted}>Rutina desde el {displayDate(routine.start)} · Se aplica también en los próximos años.</Text>}
     </View>
     <View style={[s.card, { backgroundColor: colors.soft, borderWidth: 0 }]}>
@@ -67,15 +67,15 @@ export function CalendarScreen({ year, month, today, exceptions, routine, profil
       </View>
     </View>
     <View style={s.row}>
-      <View style={{ flex: 1 }}><Button label="Añadir cambio puntual" onPress={() => onEdit(year === parseDate(today).getFullYear() && month === parseDate(today).getMonth() ? today : `${year}-${String(month + 1).padStart(2, '0')}-01`)} /></View>
+      <View style={{ flex: 1 }}><Button label={editable ? "Añadir cambio puntual" : "Proponer cambio"} onPress={() => onEdit(year === parseDate(today).getFullYear() && month === parseDate(today).getMonth() ? today : `${year}-${String(month + 1).padStart(2, '0')}-01`)} /></View>
       <Button label="Ir a hoy" secondary onPress={onToday} />
     </View>
-    <Text style={s.muted}>{child ? `${total} días asignados este mes.` : `${count} días contigo este mes.`} Toca un día para modificarlo.</Text>
+    <Text style={s.muted}>{child ? `${total} días asignados este mes.` : `${count} días contigo este mes.`} {editable ? 'Toca un día para modificarlo.' : 'Toca un día para proponer un cambio.'}</Text>
     {!routine && Object.keys(exceptions).length === 0 && <View style={s.card}>
       <Text accessibilityRole="header" style={s.heading}>Tu calendario empieza aquí</Text>
       <Text style={s.body}>Configura tu rutina para completar el calendario automáticamente o añade una estancia manual.</Text>
     </View>}
-    <Text style={s.muted}>Edición local provisional. Las cuentas familiares y los permisos están pendientes de definir.</Text>
+    <Text style={s.muted}>{shared ? 'Calendario familiar confirmado. Los hijos proponen y los progenitores resuelven.' : 'Calendario individual guardado en este dispositivo.'}</Text>
   </View>;
 }
 
