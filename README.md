@@ -18,14 +18,23 @@ El proyecto completo se ha trasladado al Bruno del Escritorio por petición expr
 
 ## Índice
 
-- [BORRADOR.md](BORRADOR.md): primer borrador funcional para revisar con el usuario.
+- [BORRADOR.md](docs/producto/BORRADOR.md): primer borrador funcional para revisar con el usuario.
 - [AGENTS.md](AGENTS.md): instrucción permanente sobre la ubicación de los archivos.
-- [DISEÑO.md](DISEÑO.md): criterios de interfaz y base técnica.
-- [VERIFICACION.md](VERIFICACION.md): comprobaciones y limitaciones.
-- [BASE_DE_DATOS.md](BASE_DE_DATOS.md): modelo de familia, permisos y conexión del servidor.
-- [PLAN.md](PLAN.md): estado de la entrega y próximos pasos, incluidas las copias de seguridad.
+- [DISEÑO.md](docs/producto/DISEÑO.md): criterios de interfaz y base técnica.
+- [VERIFICACION.md](docs/tecnica/VERIFICACION.md): comprobaciones y limitaciones.
+- [BASE_DE_DATOS.md](docs/tecnica/BASE_DE_DATOS.md): modelo de familia, permisos y conexión del servidor.
+- [PLAN.md](docs/producto/PLAN.md): estado de la entrega y próximos pasos, incluidas las copias de seguridad.
 - [ABRIR.cmd](ABRIR.cmd): abre el servidor de la versión local ya compilada.
 - Este documento: registro de decisiones, preguntas y propuestas.
+
+## Carpetas del repositorio
+
+- [docs/producto](docs/producto/) reúne el borrador, el diseño y el plan.
+- [docs/tecnica](docs/tecnica/) recoge el modelo de datos y las verificaciones.
+- [docs/revision](docs/revision/) guarda las capturas de las pruebas.
+- [src](src/) contiene el código de la app.
+- [tests](tests/) reúne las pruebas de lógica, base de datos y navegador.
+- [supabase/migrations](supabase/migrations/) contiene los cambios de la base de datos.
 
 ## Estado
 
@@ -43,9 +52,9 @@ El recorrido preparado incluye crear o iniciar sesión, crear una familia, añad
 
 Aceptar aplica el cambio y registra la resolución dentro de una transacción. Rechazar conserva el calendario. Si hubo un cambio posterior, se avisa del conflicto. Se renuevan las consultas al entrar, al volver a la app y cada 15 segundos con conexión.
 
-La importación del calendario individual exige confirmación y conserva el original. Mochilas y ajustes de avisos se guardan por cuenta y calendario en este dispositivo. Se preparan avisos del calendario abierto. El modelo y la configuración están en BASE_DE_DATOS.md.
+La importación del calendario individual exige confirmación y conserva el original. Mochilas y ajustes de avisos se guardan por cuenta y calendario en este dispositivo. Se preparan avisos del calendario abierto. Consulta el [modelo y la configuración de la base de datos](docs/tecnica/BASE_DE_DATOS.md).
 
-Las capturas de revision/ muestran datos ficticios de las pruebas de interfaz con API simulada. Las reglas SQL se probaron en PostgreSQL local con PGlite. Queda pendiente la prueba real de autenticación, acceso y sincronización con Supabase.
+Las [capturas de revisión](docs/revision/) muestran datos ficticios de las pruebas de interfaz con API simulada. Las reglas SQL se probaron en PostgreSQL local con PGlite. Queda pendiente la prueba real de autenticación, acceso y sincronización con Supabase.
 
 ## Hoy y mañana
 
@@ -143,7 +152,7 @@ Los campos de inicio de rutina, viernes de referencia y fechas inicial/final de 
 - `npm run build:native`: generación de los paquetes JavaScript/Hermes de iOS y Android en `dist-native`. Esto no equivale a compilar instaladores ni probar teléfonos físicos.
 - `npm run test:browser`: 27 pruebas en Edge. Cubren el primer uso perfil → cuestionario → revisión → calendario, semanas, quince días, meses naturales, ciclos, reparto propio, configuración posterior, cambio de regla, excepciones, retirada de excepciones, migración, recarga, plantillas sin confirmar, errores, listas de Mochila, copia con marcas pendientes y anchuras de 320, 768, 1280 y 1440 píxeles.
 
-Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](DISEÑO.md).
+Las pruebas de navegador requieren Microsoft Edge instalado. Se revisó visualmente una captura móvil. Los detalles y las limitaciones están en [VERIFICACION.md](docs/tecnica/VERIFICACION.md), y los criterios visuales y fuentes oficiales en [DISEÑO.md](docs/producto/DISEÑO.md).
 
 ## Decisiones confirmadas
 

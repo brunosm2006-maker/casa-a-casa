@@ -47,7 +47,7 @@ La rutina puede cambiarse desde Rutina o «Cambiar rutina». Hay una regla activ
 
 La vista del hijo o hija muestra con quién está hoy. La de madre o padre indica si su hijo o hija está con él o ella y cuántos días tienen asignados este mes. El perfil se elige sin nombre ni cuenta. La edición local está disponible en todos los perfiles de forma provisional. Los permisos reales y la vinculación familiar siguen sin decidirse.
 
-Para abrirla, ejecuta `npm run preview` desde la carpeta del proyecto y visita [la vista local](http://127.0.0.1:8081). Las instrucciones completas y comprobaciones están en [README.md](README.md) y [VERIFICACION.md](VERIFICACION.md). La persistencia es local, sin sincronización. No se han probado teléfonos físicos ni creado instaladores.
+Para abrirla, ejecuta `npm run preview` desde la carpeta del proyecto y visita [la vista local](http://127.0.0.1:8081). Las instrucciones completas y comprobaciones están en [README.md](../../README.md) y [VERIFICACION.md](../tecnica/VERIFICACION.md). La persistencia es local, sin sincronización. No se han probado teléfonos físicos ni creado instaladores.
 
 ## Perfiles
 
@@ -55,7 +55,7 @@ Al registrarse, cada persona elegirá un perfil de hijo/hija o madre/padre. El p
 
 Como propuesta inicial, el hijo o la hija verá en el calendario con quién está cada día y cuándo cambia de casa. La madre o el padre verá cuándo estará su hijo o hija con él o ella.
 
-Los hijos proponen cambios y los progenitores pueden aceptarlos o rechazarlos. El recorrido de cuentas e invitaciones está preparado y su conexión real está pendiente del proyecto propio. BASE_DE_DATOS.md y PLAN.md recogen el estado actual.
+Los hijos proponen cambios y los progenitores pueden aceptarlos o rechazarlos. El recorrido de cuentas e invitaciones está preparado y su conexión real está pendiente del proyecto propio. El [modelo de datos](../tecnica/BASE_DE_DATOS.md) y el [plan](PLAN.md) recogen el estado actual.
 
 ## Funciones por fase
 

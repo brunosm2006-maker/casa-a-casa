@@ -13,6 +13,6 @@ Las pruebas en teléfonos físicos y la entrega de notificaciones locales siguen
 
 Abre http://127.0.0.1:8081 y pulsa «Cuenta y familia». La versión local permite abrir Cuenta y familia y volver al modo individual.
 
-Las capturas revision/familia-hijo-pendiente.png y revision/familia-progenitor-propuesta.png muestran las pantallas de prueba con datos ficticios y API simulada. Permiten revisar el flujo visual de propuesta y resolución parental.
+Las capturas de la [vista del hijo](../revision/familia-hijo-pendiente.png) y de la [vista del progenitor](../revision/familia-progenitor-propuesta.png) muestran las pantallas de prueba con datos ficticios y API simulada. Permiten revisar el flujo visual de propuesta y resolución parental.
 
 Cuando se conecte el servidor, el progenitor crea una familia y añade un hijo. Se crea su calendario. Desde el miembro puede generar un código para que el hijo vincule su cuenta. El hijo envía una propuesta y un progenitor la acepta o rechaza. El modo individual se conserva y la importación a familia requiere confirmación.

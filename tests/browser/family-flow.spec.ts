@@ -7,7 +7,7 @@ test.skip(process.env.CASA_FAMILY_BROWSER !== '1', 'Requiere el paquete web aisl
 let server: Server;
 let origin: string;
 test.beforeAll(async () => {
-  await mkdir('revision', { recursive: true });
+  await mkdir('docs/revision', { recursive: true });
   const root = resolve('test-results/family-web');
   server = createServer(async (req, res) => {
     try {
@@ -98,7 +98,7 @@ test('API simulada: progenitor acepta, consulta varios hijos y cambia de familia
   const state = await fixture(page);
   await page.getByRole('button', { name: 'Propuestas', exact: true }).click();
   await expect(page.getByText('Pendiente', { exact: true })).toBeVisible();
-  await page.getByRole('heading', { name: 'Propuestas de cambio', exact: true }).locator('..').screenshot({ path: 'revision/familia-progenitor-propuesta.png' });
+  await page.getByRole('heading', { name: 'Propuestas de cambio', exact: true }).locator('..').screenshot({ path: 'docs/revision/familia-progenitor-propuesta.png' });
   await page.getByRole('button', { name: 'Aceptar propuesta', exact: true }).click();
   await expect(page.getByText('Aceptada', { exact: true })).toBeVisible();
   await expect(page.getByText(/Resuelta por Progenitora/)).toBeVisible();
@@ -132,7 +132,7 @@ test('API simulada: hijo propone y el calendario confirmado conserva sus fechas'
   await expect(page.getByRole('button', { name: 'Aceptar propuesta', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Rechazar propuesta', exact: true })).toHaveCount(0);
   expect(state.calls.filter(call => call.action === 'save_calendar')).toHaveLength(0);
-  await page.getByRole('heading', { name: 'Propuestas de cambio', exact: true }).locator('..').screenshot({ path: 'revision/familia-hijo-pendiente.png' });
+  await page.getByRole('heading', { name: 'Propuestas de cambio', exact: true }).locator('..').screenshot({ path: 'docs/revision/familia-hijo-pendiente.png' });
   await page.getByRole('button', { name: 'Hoy y mañana', exact: true }).click();
   await expect(page.getByTestId('tomorrow-card')).toContainText('Con padre');
   state.offline();

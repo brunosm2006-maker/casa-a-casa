@@ -105,7 +105,7 @@ Pasaron 63 pruebas de lógica, persistencia y SQL. Las reglas de la migración s
 
 Se comprueban aislamiento entre familias y hermanos, rechazo de edición directa y resolución por hijos, códigos de invitación renovados o caducados, rol fijado por el servidor, vinculación de otro progenitor, propuestas idempotentes, aceptación doble sin duplicar cambios, rechazo conservando fechas, conflictos por revisión y recuperación de rutina frente a excepción vacía. Otra prueba verifica claves privadas de mochilas y preferencias por cuenta y calendario.
 
-Pasaron 27 pruebas del navegador sobre la versión local, incluidas las regresiones existentes y la entrada a Cuenta y familia sin servidor conectado. Dos pruebas adicionales, ejecutadas por separado con API simulada, verifican el recorrido visual de propuesta de hijo, resolución parental, selección de hermanos, cambio de familia, cierre de sesión y errores de consulta. Estas dos pruebas generan las capturas en revision/.
+Pasaron 27 pruebas del navegador sobre la versión local, incluidas las regresiones existentes y la entrada a Cuenta y familia sin servidor conectado. Dos pruebas adicionales, ejecutadas por separado con API simulada, verifican el recorrido visual de propuesta de hijo, resolución parental, selección de hermanos, cambio de familia, cierre de sesión y errores de consulta. Estas dos pruebas generan las capturas en [docs/revision](../revision/).
 
 TypeScript y exportaciones web, iOS y Android correctos. La revisión visual incluye las tarjetas de propuesta del hijo y del progenitor. Las capturas contienen datos ficticios.
 
