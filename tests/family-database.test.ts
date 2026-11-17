@@ -38,6 +38,29 @@ test('PostgreSQL local: aislamiento familiar, invitaciones y resolución atómic
     const parentMember = await command('add_member', { family_id: family.id, name: 'Otro progenitor', profile: 'padre' });
     let calendar = (await db.query<any>('select * from public.casa_calendars where child_id=$1', [represented.id])).rows[0]!;
     let invitation = await command('create_invitation', { member_id: represented.id });
+    // Seed the old storage format and then run the upgrade against real PostgreSQL.
+    const previousPayload = {
+      schedule: { '2026-12-01': null, '2026-12-02': 'madre' },
+      routine: { kind: 'months', start: '2026-11-01', firstHome: 'padre' },
+    };
+    await db.exec('reset role');
+    await db.query('update public.casa_calendars set payload=$1::jsonb where id=$2', [JSON.stringify(previousPayload), calendar.id]);
+    await db.transaction(tx => tx.exec(readFileSync(new URL('../supabase/migrations/20261117142542_split_calendar_details.sql', import.meta.url), 'utf8')));
+    await t.test('separar la rutina y las excepciones conserva sus datos y la lectura de la app', async () => {
+      await as(parent);
+      assert.deepEqual((await db.query<any>('select payload from public.casa_calendars where id=$1', [calendar.id])).rows[0]!.payload, previousPayload);
+      assert.equal((await db.query('select * from public.casa_calendar_routines')).rows.length, 1);
+      assert.equal((await db.query('select * from public.casa_calendar_exceptions')).rows.length, 2);
+      await as(outsider);
+      assert.equal((await db.query('select * from public.casa_calendar_routines')).rows.length, 0);
+      assert.equal((await db.query('select * from public.casa_calendar_exceptions')).rows.length, 0);
+      await as('', 'anon');
+      await assert.rejects(db.query('select * from public.casa_calendars'), /permission denied/);
+      await db.exec('reset role');
+      await db.query('delete from public.casa_calendar_routines where calendar_id=$1', [calendar.id]);
+      await db.query('delete from public.casa_calendar_exceptions where calendar_id=$1', [calendar.id]);
+    });
+    await as(parent);
     const expired = invitation.token;
     invitation = await command('create_invitation', { member_id: represented.id });
 
@@ -73,7 +96,8 @@ test('PostgreSQL local: aislamiento familiar, invitaciones y resolución atómic
     await t.test('el hijo no puede guardar, modificar filas, resolver ni ver tokens de invitación', async () => {
       await as(child);
       await assert.rejects(command('save_calendar', { calendar_id: calendar.id, revision: 0, payload: { routine: null, schedule: {} } }), /Solo progenitores/);
-      await assert.rejects(db.query('update public.casa_calendars set revision=1 where id=$1', [calendar.id]), /permission denied/);
+      await assert.rejects(db.query('update public.casa_calendar_headers set revision=1 where id=$1', [calendar.id]), /permission denied/);
+      await assert.rejects(db.query('delete from public.casa_calendar_exceptions where calendar_id=$1', [calendar.id]), /permission denied/);
       await assert.rejects(db.query('update public.casa_members set role=\'parent\' where id=$1', [represented.id]), /permission denied/);
       await assert.rejects(db.query('select * from casa_private.invitations'), /permission denied/);
     });

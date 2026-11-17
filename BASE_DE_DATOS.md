@@ -1,8 +1,8 @@
 # Casa a Casa · cuentas, familia y propuestas
 
-Actualizado el 9 de noviembre de 2026. Proyecto en C:\Users\pc\Desktop\Bruno\Casa a Casa.
+Actualizado el 17 de noviembre de 2026. Proyecto en C:\Users\pc\Desktop\Bruno\Casa a Casa.
 
-La aplicación y la migración están preparadas. El usuario eligió el proyecto xsaxwhqwjvzafrlfvchn y la cuenta AdBruno. Las herramientas de este chat aún solo exponen bruno y Jan. La consulta de sus proyectos y organizaciones confirma que ninguna corresponde a AdBruno ni contiene el proyecto elegido. No se ha aplicado la migración remota. Las reglas se han probado con PostgreSQL local mediante PGlite y usuarios de prueba. La autenticación y la sincronización entre teléfonos requieren la conexión real.
+La base está activa en el proyecto xsaxwhqwjvzafrlfvchn de Supabase, administrado desde AdBruno. La aplicación local usa su clave publicable. Las reglas se han probado en PostgreSQL local con PGlite. Falta probar el recorrido completo con dos cuentas en el servidor.
 
 ## Modelo implementado
 
@@ -12,9 +12,13 @@ La cuenta de acceso pertenece a Supabase Auth. La tabla de miembros relaciona es
 | --- | --- |
 | casa_families | Familia y cuenta que la crea. |
 | casa_members | Nombre familiar, perfil, permiso y cuenta opcional. |
-| casa_calendars | Un calendario por miembro hijo, con rutina, excepciones y número de revisión. |
+| casa_calendar_headers | Identificador, familia, hijo y número de revisión. |
+| casa_calendar_routines | Regla habitual, una por calendario. El contenido de la regla depende del patrón. |
+| casa_calendar_exceptions | Una fila por calendario y fecha excepcional. El destino vacío deja la fecha sin asignar. |
 | casa_proposals | Fechas y destino propuestos, explicación, revisión de origen, estado y resolución. |
 | casa_private.invitations | Huella del código, miembro al que vincula, caducidad, revocación y cuenta que lo usó. |
+
+La vista casa_calendars reúne las tres tablas para la aplicación y respeta los permisos del usuario. La migración comprueba que el calendario reconstruido coincide con el anterior antes de retirar la columna JSON original.
 
 Se conservan las etiquetas de hogar madre y padre del calendario existente. La rutina y las excepciones mantienen sus formatos y fechas civiles. El servidor limita el calendario a 1 MB de JSON. Una excepción vacía deja el día sin asignar y retirar la excepción recupera la rutina.
 
@@ -42,11 +46,10 @@ Las claves individuales del calendario, las mochilas y los recordatorios se cons
 
 Las mochilas y preferencias de avisos familiares permanecen en el dispositivo, separadas por cuenta y calendario. La planificación de avisos usa el calendario confirmado seleccionado. Al cambiar de calendario se revisa la cola de avisos. Estos datos privados no se envían a la familia.
 
-## Habilitar el servidor
+## Servidor y migraciones
 
-El servidor elegido es https://xsaxwhqwjvzafrlfvchn.supabase.co. La conexión de AdBruno debe aparecer en las herramientas del chat con acceso al proyecto para aplicar y comprobar el modelo. Una vez habilitado, se debe aplicar supabase/migrations/20261109193242_family_access.sql, comprobar RLS y asesores de seguridad, y configurar los dos valores públicos de configuracion.example en un archivo .env.local.
+En Supabase están registradas family_access (20261117140748) y split_calendar_details (20261117143742). Sus fuentes versionadas están en supabase/migrations. La aplicación local obtiene la URL y la clave publicable desde .env.local. Las invitaciones familiares se comparten mediante su código.
 
-Configura el acceso por correo y contraseña con confirmación de correo y la dirección de revisión permitida. El registro se inicia solo mediante el botón de la app. Las invitaciones familiares se comparten con su código. Después recompila web y móvil y verifica con cuentas de prueba autorizadas la sesión, el aislamiento y la consulta desde dos dispositivos.
 
 Las pruebas PGlite verifican las funciones y RLS de PostgreSQL con auth.uid() de prueba. Las pruebas de interfaz interceptan la API con datos ficticios. Queda pendiente la integración real con Supabase Auth, PostgREST y teléfonos físicos.
 
